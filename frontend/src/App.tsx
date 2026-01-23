@@ -1,6 +1,6 @@
 import React from "react";
 import "@/App.css";
-import { Toaster } from 'sonner';
+import { Toaster } from '@/components/ui/sonner';
 
 // Import components
 import Header from "@/components/Header";
