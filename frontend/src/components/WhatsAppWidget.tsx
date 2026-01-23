@@ -1,10 +1,12 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
+import { useLanguage } from '@/context/LanguageContext';
 
 const WhatsAppWidget: React.FC = () => {
+  const { t, isRTL } = useLanguage();
   const phoneNumber = companyInfo.whatsapp.replace(/[^0-9]/g, '');
-  const message = encodeURIComponent(`Hello! I'm interested in learning more about Sylla Consulting's services.`);
+  const message = encodeURIComponent(t('whatsapp.message'));
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
@@ -12,7 +14,7 @@ const WhatsAppWidget: React.FC = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 group"
+      className={`fixed bottom-6 ${isRTL ? 'left-6' : 'right-6'} z-50 group`}
       aria-label="Chat on WhatsApp"
     >
       {/* Pulse Animation */}
@@ -24,9 +26,9 @@ const WhatsAppWidget: React.FC = () => {
       </div>
 
       {/* Tooltip */}
-      <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg">
-        Chat with us
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 w-2 h-2 bg-slate-900 rotate-45" />
+      <div className={`absolute ${isRTL ? 'left-full ml-3' : 'right-full mr-3'} top-1/2 -translate-y-1/2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg`}>
+        {t('whatsapp.tooltip')}
+        <div className={`absolute ${isRTL ? 'left-0 -translate-x-1' : 'right-0 translate-x-1'} top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-900 rotate-45`} />
       </div>
     </a>
   );

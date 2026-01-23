@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Contact: React.FC = () => {
+  const { t, isRTL } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,8 +29,8 @@ const Contact: React.FC = () => {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    toast.success('Message sent successfully!', {
-      description: "We'll get back to you within 24 hours."
+    toast.success(t('contact.form.success'), {
+      description: t('contact.form.successDesc')
     });
     
     setFormData({
@@ -44,23 +46,23 @@ const Contact: React.FC = () => {
   const contactInfo = [
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: 'Visit Us',
+      title: t('contact.visitUs'),
       details: [companyInfo.address],
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: 'Call Us',
+      title: t('contact.callUs'),
       details: [companyInfo.phone],
     },
     {
       icon: <Mail className="w-6 h-6" />,
-      title: 'Email Us',
+      title: t('contact.emailUs'),
       details: [companyInfo.email],
     },
     {
       icon: <Clock className="w-6 h-6" />,
-      title: 'Working Hours',
-      details: ['Sun - Thu: 9:00 AM - 6:00 PM'],
+      title: t('contact.workingHours'),
+      details: [t('contact.workingHoursValue')],
     },
   ];
 
@@ -70,26 +72,26 @@ const Contact: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full bg-amber-100 text-amber-700 text-sm font-semibold tracking-wide uppercase mb-4">
-            Get In Touch
+            {t('contact.badge')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Let's Start Your{' '}
+            {t('contact.title')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700">
-              Project
+              {t('contact.titleHighlight')}
             </span>
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Ready to transform your digital presence? We'd love to hear from you.
+            {t('contact.description')}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className={`grid lg:grid-cols-5 gap-12 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
           {/* Contact Info */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className={`lg:col-span-2 space-y-6 ${isRTL ? 'lg:col-start-4' : ''}`}>
             {contactInfo.map((info, index) => (
               <div
                 key={index}
-                className="flex items-start gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+                className={`flex items-start gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 ${isRTL ? 'flex-row-reverse text-right' : ''}`}
               >
                 <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 flex-shrink-0">
                   {info.icon}
@@ -121,15 +123,15 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-3">
+          <div className={`lg:col-span-3 ${isRTL ? 'lg:col-start-1' : ''}`}>
             <form
               onSubmit={handleSubmit}
               className="bg-white rounded-2xl shadow-xl p-8 md:p-10"
             >
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
-                    Your Name *
+                  <label htmlFor="name" className={`block text-sm font-medium text-slate-700 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                    {t('contact.form.name')} *
                   </label>
                   <input
                     type="text"
@@ -138,13 +140,14 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200"
-                    placeholder="John Doe"
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 ${isRTL ? 'text-right' : ''}`}
+                    placeholder={t('contact.form.namePlaceholder')}
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                    Email Address *
+                  <label htmlFor="email" className={`block text-sm font-medium text-slate-700 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                    {t('contact.form.email')} *
                   </label>
                   <input
                     type="email"
@@ -153,16 +156,17 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200"
-                    placeholder="john@example.com"
+                    dir="ltr"
+                    className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 ${isRTL ? 'text-right' : ''}`}
+                    placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
-                    Phone Number
+                  <label htmlFor="phone" className={`block text-sm font-medium text-slate-700 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                    {t('contact.form.phone')}
                   </label>
                   <input
                     type="tel"
@@ -170,13 +174,14 @@ const Contact: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200"
-                    placeholder="+974 1234 5678"
+                    dir="ltr"
+                    className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 ${isRTL ? 'text-right' : ''}`}
+                    placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </div>
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
-                    Subject *
+                  <label htmlFor="subject" className={`block text-sm font-medium text-slate-700 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                    {t('contact.form.subject')} *
                   </label>
                   <select
                     id="subject"
@@ -184,22 +189,23 @@ const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 bg-white"
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                    className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 bg-white ${isRTL ? 'text-right' : ''}`}
                   >
-                    <option value="">Select a service</option>
-                    <option value="web-design">Web Design & Development</option>
-                    <option value="branding">Brand Strategy</option>
-                    <option value="digital-marketing">Digital Marketing</option>
-                    <option value="social-media">Social Media Management</option>
-                    <option value="content">Content Production</option>
-                    <option value="other">Other</option>
+                    <option value="">{t('contact.form.subjectPlaceholder')}</option>
+                    <option value="web-design">{t('contact.services.webDesign')}</option>
+                    <option value="branding">{t('contact.services.branding')}</option>
+                    <option value="digital-marketing">{t('contact.services.digitalMarketing')}</option>
+                    <option value="social-media">{t('contact.services.socialMedia')}</option>
+                    <option value="content">{t('contact.services.content')}</option>
+                    <option value="other">{t('contact.services.other')}</option>
                   </select>
                 </div>
               </div>
 
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
-                  Your Message *
+                <label htmlFor="message" className={`block text-sm font-medium text-slate-700 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                  {t('contact.form.message')} *
                 </label>
                 <textarea
                   id="message"
@@ -208,25 +214,26 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 resize-none"
-                  placeholder="Tell us about your project..."
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all duration-200 resize-none ${isRTL ? 'text-right' : ''}`}
+                  placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-300 text-slate-900 font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/30 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-none"
+                className={`w-full flex items-center justify-center gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-300 text-slate-900 font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/30 transform hover:-translate-y-1 disabled:transform-none disabled:shadow-none ${isRTL ? 'flex-row-reverse' : ''}`}
               >
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin" />
-                    Sending...
+                    {t('contact.form.sending')}
                   </>
                 ) : (
                   <>
-                    Send Message
-                    <Send className="w-5 h-5" />
+                    {t('contact.form.submit')}
+                    <Send className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
                   </>
                 )}
               </button>
