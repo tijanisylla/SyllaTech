@@ -1,14 +1,24 @@
 import React from 'react';
 import { ArrowRight, Play } from 'lucide-react';
-import { companyInfo, stats } from '@/data/mock';
+import { companyInfo } from '@/data/mock';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Hero: React.FC = () => {
+  const { t, isRTL } = useLanguage();
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const stats = [
+    { value: '150+', label: t('stats.projects') },
+    { value: '80+', label: t('stats.clients') },
+    { value: '7+', label: t('stats.experience') },
+    { value: '25+', label: t('stats.team') },
+  ];
 
   return (
     <section
@@ -34,47 +44,46 @@ const Hero: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-32">
         <div className="text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-8 animate-fade-in">
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-8 animate-fade-in ${isRTL ? 'flex-row-reverse' : ''}`}>
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
             <span className="text-amber-400 text-sm font-medium tracking-wide">
-              Digital Excellence in Qatar
+              {t('hero.badge')}
             </span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
-            <span className="block">Transforming</span>
+            <span className="block">{t('hero.title1')}</span>
             <span className="block mt-2">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-500 to-teal-400">
-                Digital Visions
+                {t('hero.title2')}
               </span>
             </span>
-            <span className="block mt-2">Into Reality</span>
+            <span className="block mt-2">{t('hero.title3')}</span>
           </h1>
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-            {companyInfo.tagline}. We craft innovative digital solutions that elevate brands
-            and drive business growth across the Gulf region.
+            {t('hero.description')}
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+          <div className={`flex flex-col sm:flex-row items-center justify-center gap-5 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
             <button
               onClick={() => scrollToSection('#contact')}
-              className="group flex items-center gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/30 transform hover:-translate-y-1"
+              className={`group flex items-center gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/30 transform hover:-translate-y-1 ${isRTL ? 'flex-row-reverse' : ''}`}
             >
-              Start Your Project
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {t('hero.cta1')}
+              <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
             </button>
             <button
               onClick={() => scrollToSection('#portfolio')}
-              className="group flex items-center gap-3 px-8 py-4 border-2 border-slate-600 hover:border-amber-500 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-amber-500/10"
+              className={`group flex items-center gap-3 px-8 py-4 border-2 border-slate-600 hover:border-amber-500 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-amber-500/10 ${isRTL ? 'flex-row-reverse' : ''}`}
             >
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-                <Play className="w-4 h-4 ml-0.5" />
+                <Play className={`w-4 h-4 ${isRTL ? '' : 'ml-0.5'}`} />
               </div>
-              View Our Work
+              {t('hero.cta2')}
             </button>
           </div>
         </div>
