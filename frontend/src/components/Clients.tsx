@@ -1,17 +1,20 @@
 import React from 'react';
 import { clients } from '@/data/mock';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Clients: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold tracking-wide uppercase mb-4">
-            Trusted By
+            {t('clients.badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-            Our Major Clients
+            {t('clients.title')}
           </h2>
         </div>
 

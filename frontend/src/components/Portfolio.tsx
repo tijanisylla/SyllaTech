@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { portfolio } from '@/data/mock';
-
-const categories = ['All', 'Web Design', 'Branding', 'Social Media', 'Development', 'Digital Marketing', 'Content Production'];
+import { useLanguage } from '@/context/LanguageContext';
 
 const Portfolio: React.FC = () => {
+  const { t, isRTL } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('All');
+
+  const categories = [
+    { key: 'all', en: 'All' },
+    { key: 'webDesign', en: 'Web Design' },
+    { key: 'branding', en: 'Branding' },
+    { key: 'socialMedia', en: 'Social Media' },
+    { key: 'development', en: 'Development' },
+    { key: 'digitalMarketing', en: 'Digital Marketing' },
+    { key: 'contentProduction', en: 'Content Production' },
+  ];
 
   const filteredPortfolio = activeCategory === 'All'
     ? portfolio
@@ -17,32 +27,32 @@ const Portfolio: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold tracking-wide uppercase mb-4">
-            Our Work
+            {t('portfolio.badge')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Featured{' '}
+            {t('portfolio.title')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700">
-              Portfolio
+              {t('portfolio.titleHighlight')}
             </span>
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Explore our latest projects and see how we've helped brands achieve digital excellence
+            {t('portfolio.description')}
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className={`flex flex-wrap justify-center gap-3 mb-12 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {categories.map((category) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
+              key={category.key}
+              onClick={() => setActiveCategory(category.en)}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category
+                activeCategory === category.en
                   ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/25'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {category}
+              {t(`portfolio.categories.${category.key}`)}
             </button>
           ))}
         </div>
@@ -64,7 +74,7 @@ const Portfolio: React.FC = () => {
               </div>
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+              <div className={`absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 ${isRTL ? 'text-right' : ''}`}>
                 <span className="text-amber-400 text-sm font-medium uppercase tracking-wider mb-2">
                   {item.category}
                 </span>
@@ -73,15 +83,15 @@ const Portfolio: React.FC = () => {
                 </h3>
                 <a
                   href="#"
-                  className="inline-flex items-center gap-2 text-white hover:text-amber-400 transition-colors font-medium"
+                  className={`inline-flex items-center gap-2 text-white hover:text-amber-400 transition-colors font-medium ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  View Project
+                  {t('portfolio.viewProject')}
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
 
               {/* Category Badge */}
-              <div className="absolute top-4 left-4">
+              <div className={`absolute top-4 ${isRTL ? 'right-4' : 'left-4'}`}>
                 <span className="px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-900">
                   {item.category}
                 </span>
@@ -93,7 +103,7 @@ const Portfolio: React.FC = () => {
         {/* View All Button */}
         <div className="text-center mt-12">
           <button className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-            View All Projects
+            {t('portfolio.viewAll')}
           </button>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { testimonials } from '@/data/mock';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { t, isRTL } = useLanguage();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,12 +34,12 @@ const Testimonials: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold tracking-wide uppercase mb-4">
-            Testimonials
+            {t('testimonials.badge')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            What Our{' '}
+            {t('testimonials.title')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-teal-400">
-              Clients Say
+              {t('testimonials.titleHighlight')}
             </span>
           </h2>
         </div>
@@ -46,7 +48,7 @@ const Testimonials: React.FC = () => {
         <div className="relative">
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-8 md:p-12">
             {/* Quote Icon */}
-            <div className="absolute -top-6 left-12">
+            <div className={`absolute -top-6 ${isRTL ? 'right-12' : 'left-12'}`}>
               <div className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center">
                 <Quote className="w-6 h-6 text-slate-900" />
               </div>
@@ -76,12 +78,12 @@ const Testimonials: React.FC = () => {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex justify-center items-center gap-4 mt-8">
+          <div className={`flex justify-center items-center gap-4 mt-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <button
               onClick={prevTestimonial}
               className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white hover:bg-amber-500 hover:border-amber-500 transition-all duration-300"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dots */}
@@ -103,7 +105,7 @@ const Testimonials: React.FC = () => {
               onClick={nextTestimonial}
               className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white hover:bg-amber-500 hover:border-amber-500 transition-all duration-300"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
             </button>
           </div>
         </div>
