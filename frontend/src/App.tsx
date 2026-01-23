@@ -1,6 +1,7 @@
 import React from "react";
 import "@/App.css";
 import { Toaster } from '@/components/ui/sonner';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 // Import components
 import Header from "@/components/Header";
@@ -17,22 +18,24 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 
 function App() {
   return (
-    <div className="App">
-      <Toaster position="top-right" richColors />
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Portfolio />
-        <Team />
-        <Testimonials />
-        <Clients />
-        <Contact />
-      </main>
-      <Footer />
-      <WhatsAppWidget />
-    </div>
+    <LanguageProvider>
+      <div className="App">
+        <Toaster position="top-right" richColors />
+        <Header />
+        <main>
+          <Hero />
+          <About />
+          <Services />
+          <Portfolio />
+          <Team />
+          <Testimonials />
+          <Clients />
+          <Contact />
+        </main>
+        <Footer />
+        <WhatsAppWidget />
+      </div>
+    </LanguageProvider>
   );
 }
 
