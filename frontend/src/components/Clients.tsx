@@ -1,5 +1,5 @@
 import React from 'react';
-import { clients } from '../data/mock';
+import { clients } from '@/data/mock';
 
 const Clients: React.FC = () => {
   return (

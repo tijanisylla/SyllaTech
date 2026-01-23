@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, Palette, TrendingUp, Share2, Video, Server, ArrowRight } from 'lucide-react';
-import { services } from '../data/mock';
+import { services } from '@/data/mock';
 
 const iconMap: Record<number, React.ReactNode> = {
   1: <Globe className="w-7 h-7" />,

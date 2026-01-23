@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Play } from 'lucide-react';
-import { companyInfo, stats } from '../data/mock';
+import { companyInfo, stats } from '@/data/mock';
 
 const Hero: React.FC = () => {
   const scrollToSection = (href: string) => {

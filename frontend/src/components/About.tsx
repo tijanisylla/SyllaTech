@@ -1,6 +1,6 @@
 import React from 'react';
 import { Target, Eye, Award, Users } from 'lucide-react';
-import { aboutData, companyInfo } from '../data/mock';
+import { aboutData, companyInfo } from '@/data/mock';
 
 const About: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Linkedin, Twitter } from 'lucide-react';
-import { team } from '../data/mock';
+import { team } from '@/data/mock';
 
 const Team: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { portfolio } from '../data/mock';
+import { portfolio } from '@/data/mock';
 
 const categories = ['All', 'Web Design', 'Branding', 'Social Media', 'Development', 'Digital Marketing', 'Content Production'];
 

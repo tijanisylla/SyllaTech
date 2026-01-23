@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Mail, ArrowUp, Linkedin, Twitter, Instagram, Facebook } from 'lucide-react';
-import { companyInfo } from '../data/mock';
+import { companyInfo } from '@/data/mock';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { companyInfo } from '../data/mock';
+import { companyInfo } from '@/data/mock';
 
 const WhatsAppWidget: React.FC = () => {
   const phoneNumber = companyInfo.whatsapp.replace(/[^0-9]/g, '');

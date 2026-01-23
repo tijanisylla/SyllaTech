@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { testimonials } from '../data/mock';
+import { testimonials } from '@/data/mock';
 
 const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

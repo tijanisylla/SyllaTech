@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react';
-import { companyInfo } from '../data/mock';
-import { toast } from 'sonner';
+import { companyInfo } from '@/data/mock';
+import { toast } from '@/components/ui/sonner';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
