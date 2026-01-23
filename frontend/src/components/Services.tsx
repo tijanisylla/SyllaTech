@@ -1,18 +1,33 @@
 import React, { useState } from 'react';
 import { Globe, Palette, TrendingUp, Share2, Video, Server, ArrowRight } from 'lucide-react';
-import { services } from '@/data/mock';
-
-const iconMap: Record<number, React.ReactNode> = {
-  1: <Globe className="w-7 h-7" />,
-  2: <Palette className="w-7 h-7" />,
-  3: <TrendingUp className="w-7 h-7" />,
-  4: <Share2 className="w-7 h-7" />,
-  5: <Video className="w-7 h-7" />,
-  6: <Server className="w-7 h-7" />,
-};
+import { useLanguage } from '@/context/LanguageContext';
 
 const Services: React.FC = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const { t, isRTL } = useLanguage();
+
+  const iconMap: Record<number, React.ReactNode> = {
+    1: <Globe className="w-7 h-7" />,
+    2: <Palette className="w-7 h-7" />,
+    3: <TrendingUp className="w-7 h-7" />,
+    4: <Share2 className="w-7 h-7" />,
+    5: <Video className="w-7 h-7" />,
+    6: <Server className="w-7 h-7" />,
+  };
+
+  const serviceKeys = ['webDesign', 'branding', 'digitalMarketing', 'socialMedia', 'content', 'it'];
+
+  const services = serviceKeys.map((key, index) => ({
+    id: index + 1,
+    title: t(`services.${key}.title`),
+    description: t(`services.${key}.description`),
+    features: [
+      t(`services.${key}.features.0`),
+      t(`services.${key}.features.1`),
+      t(`services.${key}.features.2`),
+      t(`services.${key}.features.3`),
+    ],
+  }));
 
   return (
     <section id="services" className="py-24 lg:py-32 bg-slate-900">
@@ -20,16 +35,16 @@ const Services: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold tracking-wide uppercase mb-4">
-            What We Offer
+            {t('services.badge')}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Our{' '}
+            {t('services.title')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-teal-400">
-              Services
+              {t('services.titleHighlight')}
             </span>
           </h2>
           <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Comprehensive digital solutions tailored to elevate your brand and drive business growth
+            {t('services.description')}
           </p>
         </div>
 
@@ -40,7 +55,7 @@ const Services: React.FC = () => {
               key={service.id}
               onMouseEnter={() => setHoveredId(service.id)}
               onMouseLeave={() => setHoveredId(null)}
-              className="group relative p-8 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-amber-500/50 transition-all duration-500 hover:transform hover:-translate-y-2"
+              className={`group relative p-8 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-amber-500/50 transition-all duration-500 hover:transform hover:-translate-y-2 ${isRTL ? 'text-right' : ''}`}
             >
               {/* Glow Effect */}
               <div
@@ -48,7 +63,7 @@ const Services: React.FC = () => {
               />
 
               {/* Icon */}
-              <div className="relative w-16 h-16 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center mb-6 text-slate-900 group-hover:scale-110 transition-transform duration-300">
+              <div className={`relative w-16 h-16 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center mb-6 text-slate-900 group-hover:scale-110 transition-transform duration-300 ${isRTL ? 'mr-auto ml-0' : ''}`}>
                 {iconMap[service.id]}
               </div>
 
@@ -66,7 +81,7 @@ const Services: React.FC = () => {
                   {service.features.map((feature, index) => (
                     <li
                       key={index}
-                      className="flex items-center gap-2 text-slate-300 text-sm"
+                      className={`flex items-center gap-2 text-slate-300 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                       {feature}
@@ -77,10 +92,10 @@ const Services: React.FC = () => {
                 {/* Learn More Link */}
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 text-amber-400 font-medium group/link hover:text-amber-300 transition-colors"
+                  className={`inline-flex items-center gap-2 text-amber-400 font-medium group/link hover:text-amber-300 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  Learn More
-                  <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                  {t('services.learnMore')}
+                  <ArrowRight className={`w-4 h-4 group-hover/link:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover/link:-translate-x-1' : ''}`} />
                 </a>
               </div>
             </div>
