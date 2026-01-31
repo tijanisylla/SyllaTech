@@ -2,6 +2,7 @@ import React from "react";
 import "@/App.css";
 import { Toaster } from '@/components/ui/sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 
 // Components
 import Header from "@/components/Header";
@@ -16,26 +17,36 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 
+const AppContent: React.FC = () => {
+  const { isDark } = useTheme();
+  
+  return (
+    <div className="App min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+      <Toaster position="top-right" richColors theme={isDark ? "dark" : "light"} />
+      <Header />
+      <main>
+        <Hero />
+        <Services />
+        <TechStack />
+        <Portfolio />
+        <Pricing />
+        <About />
+        <Booking />
+        <Contact />
+      </main>
+      <Footer />
+      <WhatsAppWidget />
+    </div>
+  );
+};
+
 function App() {
   return (
-    <LanguageProvider>
-      <div className="App bg-[#030712] min-h-screen">
-        <Toaster position="top-right" richColors theme="dark" />
-        <Header />
-        <main>
-          <Hero />
-          <Services />
-          <TechStack />
-          <Portfolio />
-          <Pricing />
-          <About />
-          <Booking />
-          <Contact />
-        </main>
-        <Footer />
-        <WhatsAppWidget />
-      </div>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 
