@@ -177,7 +177,11 @@ const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+              className={`lg:hidden p-2 rounded-lg transition-all ${
+                isDark 
+                  ? 'text-slate-400 hover:text-white hover:bg-white/10' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
             >
               <AnimatePresence mode="wait">
                 {isMobileMenuOpen ? (
@@ -214,9 +218,11 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{ duration: 0.2 }}
-              className="lg:hidden mt-2 rounded-2xl border border-white/10 overflow-hidden"
+              className={`lg:hidden mt-2 rounded-2xl border overflow-hidden ${
+                isDark ? 'border-white/10' : 'border-slate-200'
+              }`}
               style={{
-                background: 'rgba(8, 12, 24, 0.95)',
+                background: isDark ? 'rgba(8, 12, 24, 0.95)' : 'rgba(255, 255, 255, 0.98)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
               }}
@@ -230,7 +236,11 @@ const Header: React.FC = () => {
                       e.preventDefault();
                       scrollToSection(link.href);
                     }}
-                    className={`block px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-all ${isRTL ? 'text-right' : ''}`}
+                    className={`block px-4 py-3 rounded-lg transition-all ${isRTL ? 'text-right' : ''} ${
+                      isDark 
+                        ? 'text-slate-300 hover:text-white hover:bg-white/5' 
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
                     initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -239,10 +249,26 @@ const Header: React.FC = () => {
                   </motion.a>
                 ))}
                 
-                <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+                <div className={`mt-4 pt-4 border-t space-y-3 ${isDark ? 'border-white/10' : 'border-slate-200'}`}>
+                  {/* Mobile Theme Toggle */}
+                  <button
+                    onClick={toggleTheme}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border transition-all ${
+                      isDark 
+                        ? 'text-slate-300 bg-white/5 hover:bg-white/10 border-white/10' 
+                        : 'text-slate-600 bg-slate-50 hover:bg-slate-100 border-slate-200'
+                    }`}
+                  >
+                    {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                  </button>
                   <button
                     onClick={toggleLanguage}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border transition-all ${
+                      isDark 
+                        ? 'text-slate-300 bg-white/5 hover:bg-white/10 border-white/10' 
+                        : 'text-slate-600 bg-slate-50 hover:bg-slate-100 border-slate-200'
+                    }`}
                   >
                     <Globe className="w-4 h-4" />
                     {language === 'en' ? 'العربية' : 'English'}
