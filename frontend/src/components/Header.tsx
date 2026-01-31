@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t, isRTL } = useLanguage();
+  const { t, isRTL, language, setLanguage } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
     { href: '#about', label: t('nav.about') },
     { href: '#services', label: t('nav.services') },
     { href: '#portfolio', label: t('nav.portfolio') },
-    { href: '#team', label: t('nav.team') },
+    { href: '#early-access', label: t('nav.pricing') },
     { href: '#contact', label: t('nav.contact') },
   ];
 
@@ -34,64 +34,92 @@ const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ar' : 'en');
+  };
+
   return (
-    <header
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-slate-900/95 backdrop-blur-md shadow-xl py-3'
-          : 'bg-transparent py-6'
+          ? 'bg-slate-950/90 backdrop-blur-xl border-b border-blue-500/10 py-3'
+          : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <nav className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
           {/* Logo */}
-          <a
+          <motion.a
             href="#home"
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('#home');
             }}
             className={`group flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+            whileHover={{ scale: 1.02 }}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-              <span className="text-slate-900 font-bold text-xl">S</span>
-            </div>
-            <span className="text-2xl font-bold text-white tracking-tight">
-              {companyInfo.name.split(' ')[0]}
-              <span className="text-amber-400">.</span>
-            </span>
-          </a>
+            <motion.img
+              src="https://customer-assets.emergentagent.com/job_sylladigital/artifacts/k3974qhm_LOGO-SYLLA_TECH.png"
+              alt="SyllaTech Logo"
+              className="h-10 w-auto"
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.a>
 
           {/* Desktop Navigation */}
           <div className={`hidden lg:flex items-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            {navLinks.map((link) => (
-              <a
+            {navLinks.map((link, index) => (
+              <motion.a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToSection(link.href);
                 }}
-                className="text-white/80 hover:text-amber-400 transition-colors duration-300 text-sm font-medium tracking-wide"
+                className="relative text-slate-300 hover:text-white transition-colors duration-300 text-sm font-medium"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -2 }}
               >
                 {link.label}
-              </a>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-full hover:w-full" />
+              </motion.a>
             ))}
           </div>
 
-          {/* Right Side - Language Switcher & CTA */}
+          {/* Right Side */}
           <div className={`hidden lg:flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <LanguageSwitcher />
-            <a
-              href="#contact"
+            {/* Language Toggle */}
+            <motion.button
+              onClick={toggleLanguage}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Globe className="w-4 h-4 text-blue-400" />
+              <span className="text-sm font-medium text-slate-300">
+                {language === 'en' ? 'العربية' : 'English'}
+              </span>
+            </motion.button>
+
+            {/* CTA Button */}
+            <motion.a
+              href="#booking"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection('#contact');
+                scrollToSection('#booking');
               }}
-              className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/25 transform hover:-translate-y-0.5"
+              className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/25"
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
             >
-              {t('nav.getStarted')}
-            </a>
+              {t('nav.bookCall')}
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -104,42 +132,56 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Mobile Menu */}
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-500 ${
-            isMobileMenuOpen ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="bg-slate-800/90 backdrop-blur-lg rounded-2xl p-6 space-y-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.href);
-                }}
-                className={`block text-white/90 hover:text-amber-400 transition-colors py-2 text-lg font-medium ${isRTL ? 'text-right' : ''}`}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div className="pt-4 flex flex-col gap-3">
-              <LanguageSwitcher />
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('#contact');
-                }}
-                className="block w-full text-center px-6 py-3 bg-amber-500 text-slate-900 font-semibold rounded-lg"
-              >
-                {t('nav.getStarted')}
-              </a>
-            </div>
-          </div>
-        </div>
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden overflow-hidden mt-4"
+            >
+              <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl p-6 border border-slate-800">
+                {navLinks.map((link, index) => (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className={`block text-slate-300 hover:text-white py-3 text-lg font-medium border-b border-slate-800 last:border-0 ${isRTL ? 'text-right' : ''}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+                <div className="mt-4 flex flex-col gap-3">
+                  <button
+                    onClick={toggleLanguage}
+                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-slate-800 text-slate-300"
+                  >
+                    <Globe className="w-4 h-4" />
+                    {language === 'en' ? 'العربية' : 'English'}
+                  </button>
+                  <a
+                    href="#booking"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('#booking');
+                    }}
+                    className="w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-lg"
+                  >
+                    {t('nav.bookCall')}
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
