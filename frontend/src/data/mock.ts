@@ -1,6 +1,6 @@
 export const companyInfo = {
   name: "SyllaTech",
-  tagline: "Modern Websites That Grow Your Business",
+  tagline: "Premium Websites & Full-Stack Apps for Growing Businesses",
   subTagline: "Built in Chicago. Expanding to Doha.",
   founder: "Tijani Youssouf Sylla",
   location: "Chicago, USA",
@@ -10,117 +10,163 @@ export const companyInfo = {
   whatsapp: "+13126900771",
 };
 
-export const aboutData = {
-  story: `SyllaTech was founded by Tijani Youssouf Sylla with a simple mission: help local businesses thrive in the digital age. Based in Chicago and expanding to Doha, Qatar, we bring Silicon Valley-quality web solutions to businesses that deserve better than cookie-cutter templates.`,
-  founder: {
-    name: "Tijani Youssouf Sylla",
-    role: "Founder & Lead Developer",
-    bio: "Full-stack developer passionate about creating digital experiences that drive real business results. Multilingual professional fluent in English, French, Arabic, Portuguese, and Spanish.",
-    languages: ["English", "French", "Arabic", "Portuguese", "Spanish"]
-  }
-};
-
 export const services = [
   {
     id: 1,
-    title: "Website Design",
-    description: "Beautiful, conversion-focused websites that make your business stand out from the competition.",
-    icon: "palette",
-    features: ["Custom UI/UX Design", "Mobile-First Approach", "Brand Integration", "Fast Loading"]
+    title: "Full-Stack Web Apps",
+    description: "Custom web applications built with React, TypeScript, and Node.js. From MVPs to enterprise solutions.",
+    icon: "code",
+    features: ["React & TypeScript", "Node.js Backend", "Database Design", "API Development"]
   },
   {
     id: 2,
-    title: "Full-Stack Development",
-    description: "Powerful web applications built with modern technologies like React, TypeScript, and Node.js.",
-    icon: "code",
-    features: ["React & TypeScript", "Node.js Backend", "Database Design", "API Integration"]
+    title: "Business Websites",
+    description: "Fast, modern, mobile-first websites that convert visitors into customers. Perfect for local businesses.",
+    icon: "globe",
+    features: ["Responsive Design", "Fast Loading", "SEO Optimized", "Easy to Update"]
   },
   {
     id: 3,
-    title: "Booking Systems",
-    description: "Let customers book appointments 24/7 with automated scheduling and reminders.",
-    icon: "calendar",
-    features: ["Online Scheduling", "Payment Integration", "Email Reminders", "Calendar Sync"]
+    title: "HTML Emails & Campaigns",
+    description: "Professional email templates built with MJML. Newsletter designs and campaign setup.",
+    icon: "mail",
+    features: ["MJML Templates", "All Clients Support", "A/B Testing Ready", "Analytics Integration"]
   },
   {
     id: 4,
-    title: "Business Websites",
-    description: "Professional websites for auto repair shops, restaurants, car washes, and local businesses.",
-    icon: "building",
-    features: ["Local SEO", "Google Integration", "Review Management", "Contact Forms"]
+    title: "Banner Ads & Creatives",
+    description: "High-converting HTML/CSS banner ads and marketing creatives for your campaigns.",
+    icon: "image",
+    features: ["HTML5 Banners", "Animated Ads", "All Sizes", "Platform Ready"]
   },
   {
     id: 5,
-    title: "Admin Dashboards",
-    description: "Custom dashboards to manage your business data, customers, and operations efficiently.",
-    icon: "layout",
-    features: ["Real-time Analytics", "User Management", "Custom Reports", "Data Visualization"]
+    title: "Maintenance & Support",
+    description: "Monthly care plans to keep your website secure, updated, and performing at its best.",
+    icon: "shield",
+    features: ["24/7 Monitoring", "Regular Updates", "Security Patches", "Priority Support"]
   },
   {
     id: 6,
-    title: "Maintenance Plans",
-    description: "Ongoing support, updates, and hosting to keep your website secure and running smoothly.",
-    icon: "shield",
-    features: ["24/7 Monitoring", "Regular Updates", "Security Patches", "Priority Support"]
+    title: "Performance & SEO",
+    description: "Speed optimization and search engine fundamentals to help you rank and convert.",
+    icon: "zap",
+    features: ["Core Web Vitals", "Technical SEO", "Speed Optimization", "Analytics Setup"]
   }
 ];
+
+export const techStack = {
+  frontend: ["React", "TypeScript", "Next.js", "HTML5", "CSS3", "Tailwind CSS"],
+  backend: ["Node.js", "Python", "Express", "REST APIs", "PostgreSQL", "MongoDB"],
+  tools: ["MJML", "Git", "Figma", "VS Code", "Vercel", "Docker"],
+  other: ["Responsive Design", "SEO", "Performance", "Accessibility"]
+};
 
 export const demoProjects = [
   {
     id: 1,
     title: "AutoPro Garage",
-    category: "Auto Repair Shop",
-    description: "Modern website for a full-service auto repair business with online booking.",
+    category: "Business Website",
+    description: "Modern auto repair shop website with online booking and service catalog.",
     image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=500&fit=crop",
-    features: ["Service Booking", "Price Estimator", "Customer Portal"],
-    color: "from-blue-500 to-cyan-500"
+    tags: ["React", "Booking System", "Responsive"],
+    color: "cyan"
   },
   {
     id: 2,
     title: "Bella Cucina",
-    category: "Restaurant",
-    description: "Elegant restaurant website with online ordering and table reservations.",
+    category: "Restaurant Site",
+    description: "Elegant restaurant website with menu, reservations, and online ordering.",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop",
-    features: ["Online Menu", "Table Booking", "Order System"],
-    color: "from-amber-500 to-orange-500"
+    tags: ["Next.js", "Online Orders", "SEO"],
+    color: "blue"
   },
   {
     id: 3,
-    title: "SparkleWash",
-    category: "Car Wash",
-    description: "Clean, modern site for a premium car wash with membership options.",
-    image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=500&fit=crop",
-    features: ["Membership Plans", "Appointment Booking", "Loyalty Program"],
-    color: "from-emerald-500 to-teal-500"
+    title: "TechStart Dashboard",
+    category: "Web Application",
+    description: "Full-stack admin dashboard with analytics, user management, and reporting.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+    tags: ["TypeScript", "Node.js", "Charts"],
+    color: "purple"
   }
 ];
 
-export const earlyClientBenefits = [
+export const pricingPlans = [
   {
-    title: "Founding Partner Pricing",
-    description: "Lock in special rates as one of our first clients",
-    icon: "percent"
+    id: 1,
+    name: "Starter",
+    price: "1,500",
+    description: "Perfect for small businesses getting started online",
+    features: [
+      "5-page responsive website",
+      "Mobile-first design",
+      "Contact form",
+      "Basic SEO setup",
+      "Google Analytics",
+      "2 rounds of revisions"
+    ],
+    popular: false
   },
   {
-    title: "Priority Support",
-    description: "Direct access to the founder for all your needs",
-    icon: "headphones"
+    id: 2,
+    name: "Professional",
+    price: "3,500",
+    description: "For businesses ready to grow and convert",
+    features: [
+      "10-page custom website",
+      "Advanced animations",
+      "Booking/scheduling system",
+      "Email integration",
+      "Performance optimization",
+      "3 months support included"
+    ],
+    popular: true
   },
   {
-    title: "Shape Our Services",
-    description: "Your feedback directly influences our offerings",
-    icon: "message"
-  },
-  {
-    title: "Long-term Partnership",
-    description: "Grow with us as we expand globally",
-    icon: "handshake"
+    id: 3,
+    name: "Enterprise",
+    price: "Custom",
+    description: "Full-stack apps and complex solutions",
+    features: [
+      "Custom web application",
+      "User authentication",
+      "Admin dashboard",
+      "Database design",
+      "API development",
+      "Ongoing partnership"
+    ],
+    popular: false
   }
 ];
+
+export const monthlyPlan = {
+  name: "Monthly Care Plan",
+  price: "199",
+  description: "Keep your site fast, secure, and up-to-date",
+  features: [
+    "24/7 uptime monitoring",
+    "Weekly backups",
+    "Security updates",
+    "Performance checks",
+    "Content updates (2hrs/mo)",
+    "Priority support"
+  ]
+};
+
+export const aboutData = {
+  story: "SyllaTech was founded with one mission: deliver Silicon Valley-quality web solutions to businesses that want to grow. We're a new agency building our client base the right way—through quality work, honest communication, and results that speak for themselves.",
+  founder: {
+    name: "Tijani Youssouf Sylla",
+    role: "Founder & Lead Developer",
+    languages: ["English", "French", "Arabic", "Portuguese", "Spanish"],
+    bio: "Full-stack developer with a passion for clean code and beautiful design. Bringing a global perspective to every project."
+  }
+};
 
 export const stats = [
   { value: "5+", label: "Demo Projects" },
+  { value: "5", label: "Languages" },
   { value: "100%", label: "Dedication" },
-  { value: "5", label: "Languages Spoken" },
-  { value: "24/7", label: "Support Ready" }
+  { value: "24/7", label: "Support" }
 ];
