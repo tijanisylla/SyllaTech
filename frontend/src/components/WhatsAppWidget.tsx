@@ -5,9 +5,9 @@ import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 
 const WhatsAppWidget: React.FC = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
   const phoneNumber = companyInfo.whatsapp.replace(/[^0-9]/g, '');
-  const message = encodeURIComponent(t('whatsapp.message'));
+  const message = encodeURIComponent("Hi! I'm interested in SyllaTech's web development services.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
@@ -21,22 +21,21 @@ const WhatsAppWidget: React.FC = () => {
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1, type: "spring", stiffness: 200 }}
     >
-      {/* Pulse Animation */}
-      <div className="absolute inset-0 w-14 h-14 rounded-full bg-emerald-500 animate-ping opacity-30" />
+      {/* Pulse */}
+      <div className="absolute inset-0 w-12 h-12 rounded-xl bg-emerald-500 animate-ping opacity-25" />
       
-      {/* Main Button */}
+      {/* Button */}
       <motion.div
-        className="relative w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30"
+        className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/25"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <MessageCircle className="w-7 h-7 text-white" />
+        <MessageCircle className="w-6 h-6 text-white" />
       </motion.div>
 
       {/* Tooltip */}
-      <div className={`absolute ${isRTL ? 'left-full ml-3' : 'right-full mr-3'} top-1/2 -translate-y-1/2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg border border-slate-800`}>
-        {t('whatsapp.tooltip')}
-        <div className={`absolute ${isRTL ? 'left-0 -translate-x-1' : 'right-0 translate-x-1'} top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-900 rotate-45 border-r border-b border-slate-800`} />
+      <div className={`absolute ${isRTL ? 'left-full ml-3' : 'right-full mr-3'} top-1/2 -translate-y-1/2 px-3 py-2 bg-slate-900 border border-white/10 text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap`}>
+        Chat with us
       </div>
     </motion.a>
   );
