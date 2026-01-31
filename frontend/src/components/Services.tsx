@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { Code2, Globe, Mail, Image, Shield, Zap, ArrowRight } from 'lucide-react';
 import { services } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const iconMap: Record<string, React.ReactNode> = {
   code: <Code2 className="w-6 h-6" />,
@@ -16,6 +17,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 const Services: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
@@ -34,8 +36,14 @@ const Services: React.FC = () => {
   return (
     <section id="services" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[150px]" />
+      <div className={`absolute inset-0 ${
+        isDark 
+          ? 'bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]' 
+          : 'bg-gradient-to-b from-white via-slate-50 to-white'
+      }`} />
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[150px] ${
+        isDark ? 'bg-blue-600/5' : 'bg-blue-600/10'
+      }`} />
 
       <motion.div
         ref={ref}
@@ -46,16 +54,20 @@ const Services: React.FC = () => {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-4">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+            isDark 
+              ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' 
+              : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
+          }`}>
             What We Build
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Our{' '}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Services
             </span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Everything you need to establish a powerful online presence and grow your business
           </p>
         </motion.div>
@@ -66,23 +78,39 @@ const Services: React.FC = () => {
             <motion.div
               key={service.id}
               variants={itemVariants}
-              className={`group relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/40 transition-all duration-300 ${isRTL ? 'text-right' : ''}`}
-              whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(6, 182, 212, 0.1)" }}
+              className={`group relative p-6 rounded-2xl border transition-all duration-300 ${isRTL ? 'text-right' : ''} ${
+                isDark 
+                  ? 'bg-white/[0.02] border-white/[0.06] hover:border-cyan-500/40' 
+                  : 'bg-white border-slate-200 hover:border-cyan-500/50 shadow-sm hover:shadow-lg'
+              }`}
+              whileHover={{ y: -6, boxShadow: isDark ? "0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(6, 182, 212, 0.1)" : "0 20px 40px rgba(0,0,0,0.08), 0 0 40px rgba(6, 182, 212, 0.08)" }}
             >
               {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/0 to-blue-600/0 group-hover:from-cyan-500/5 group-hover:to-blue-600/5 transition-all duration-300" />
+              <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${
+                isDark 
+                  ? 'bg-gradient-to-br from-cyan-500/0 to-blue-600/0 group-hover:from-cyan-500/5 group-hover:to-blue-600/5' 
+                  : 'bg-gradient-to-br from-cyan-500/0 to-blue-600/0 group-hover:from-cyan-500/5 group-hover:to-blue-600/5'
+              }`} />
 
               {/* Icon */}
-              <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center mb-5 text-cyan-400 group-hover:from-cyan-500/30 group-hover:to-blue-600/30 transition-all ${isRTL ? 'mr-0 ml-auto' : ''}`}>
+              <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center mb-5 text-cyan-500 transition-all ${isRTL ? 'mr-0 ml-auto' : ''} ${
+                isDark 
+                  ? 'bg-gradient-to-br from-cyan-500/20 to-blue-600/20 group-hover:from-cyan-500/30 group-hover:to-blue-600/30' 
+                  : 'bg-gradient-to-br from-cyan-50 to-blue-50 group-hover:from-cyan-100 group-hover:to-blue-100'
+              }`}>
                 {iconMap[service.icon]}
               </div>
 
               {/* Content */}
               <div className="relative">
-                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                <h3 className={`text-lg font-semibold mb-2 transition-colors ${
+                  isDark 
+                    ? 'text-white group-hover:text-cyan-400' 
+                    : 'text-slate-900 group-hover:text-cyan-600'
+                }`}>
                   {service.title}
                 </h3>
-                <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                <p className={`text-sm mb-4 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   {service.description}
                 </p>
 
@@ -91,7 +119,9 @@ const Services: React.FC = () => {
                   {service.features.map((feature, idx) => (
                     <li
                       key={idx}
-                      className={`flex items-center gap-2 text-slate-500 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}
+                      className={`flex items-center gap-2 text-sm ${isRTL ? 'flex-row-reverse' : ''} ${
+                        isDark ? 'text-slate-500' : 'text-slate-500'
+                      }`}
                     >
                       <span className="w-1 h-1 rounded-full bg-cyan-500" />
                       {feature}
