@@ -52,8 +52,12 @@ const Header: React.FC = () => {
         <nav
           className={`mt-4 rounded-2xl border transition-all duration-300 ${
             isScrolled
-              ? 'py-3 bg-[rgba(8,12,24,0.92)] border-white/10 shadow-lg shadow-black/20'
-              : 'py-4 bg-[rgba(8,12,24,0.88)] border-white/8'
+              ? isDark 
+                ? 'py-3 bg-[rgba(8,12,24,0.92)] border-white/10 shadow-lg shadow-black/20'
+                : 'py-3 bg-[rgba(255,255,255,0.95)] border-slate-200 shadow-lg shadow-slate-200/50'
+              : isDark
+                ? 'py-4 bg-[rgba(8,12,24,0.88)] border-white/8'
+                : 'py-4 bg-[rgba(255,255,255,0.88)] border-slate-200/60'
           }`}
           style={{
             backdropFilter: `blur(${isScrolled ? 18 : 14}px)`,
@@ -90,7 +94,11 @@ const Header: React.FC = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="group relative px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200"
+                  className={`group relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                    isDark 
+                      ? 'text-slate-400 hover:text-white' 
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
                 >
                   <span className="relative z-10">{link.label}</span>
                   {/* Hover glow background */}
@@ -103,10 +111,51 @@ const Header: React.FC = () => {
 
             {/* Right Side Actions */}
             <div className={`hidden lg:flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              {/* Theme Toggle */}
+              <motion.button
+                onClick={toggleTheme}
+                className={`relative p-2.5 rounded-lg transition-all duration-300 ${
+                  isDark 
+                    ? 'bg-white/5 hover:bg-white/10 border border-white/8 hover:border-cyan-500/30 text-slate-400 hover:text-white' 
+                    : 'bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-cyan-500/50 text-slate-600 hover:text-slate-900'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                data-testid="theme-toggle-btn"
+              >
+                <AnimatePresence mode="wait">
+                  {isDark ? (
+                    <motion.div
+                      key="sun"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Sun className="w-4 h-4" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="moon"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Moon className="w-4 h-4" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+              
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/8 hover:border-cyan-500/30 transition-all duration-200"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isDark 
+                    ? 'text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/8 hover:border-cyan-500/30' 
+                    : 'text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-cyan-500/50'
+                }`}
               >
                 <Globe className="w-4 h-4" />
                 <span>{language === 'en' ? 'AR' : 'EN'}</span>
