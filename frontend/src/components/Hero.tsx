@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 import { companyInfo, stats } from '@/data/mock';
 
 const Hero: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Particle animation
@@ -76,7 +78,11 @@ const Hero: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
+      <div className={`absolute inset-0 ${
+        isDark 
+          ? 'bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]' 
+          : 'bg-gradient-to-b from-slate-50 via-white to-slate-50'
+      }`} />
       
       {/* Particle Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
@@ -85,8 +91,12 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 tech-grid opacity-40" />
       
       {/* Gradient Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px]" />
+      <div className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] ${
+        isDark ? 'bg-cyan-500/10' : 'bg-cyan-500/20'
+      }`} />
+      <div className={`absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px] ${
+        isDark ? 'bg-blue-600/10' : 'bg-blue-600/15'
+      }`} />
 
       {/* Content */}
       <div className="relative z-10 max-w-[1280px] mx-auto px-6 py-32 w-full">
@@ -96,10 +106,16 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-8"
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 ${
+              isDark 
+                ? 'bg-cyan-500/10 border border-cyan-500/20' 
+                : 'bg-cyan-50 border border-cyan-200'
+            }`}
           >
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-cyan-400 text-sm font-medium">Web Design & Full-Stack Development</span>
+            <Sparkles className="w-4 h-4 text-cyan-500" />
+            <span className={`text-sm font-medium ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
+              Web Design & Full-Stack Development
+            </span>
           </motion.div>
 
           {/* Headline */}
@@ -109,13 +125,13 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            <span className="text-white">Premium Websites &</span>
+            <span className={isDark ? 'text-white' : 'text-slate-900'}>Premium Websites &</span>
             <br />
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Full-Stack Apps
             </span>
             <br />
-            <span className="text-white">for Growing Businesses</span>
+            <span className={isDark ? 'text-white' : 'text-slate-900'}>for Growing Businesses</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -123,7 +139,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl md:text-2xl text-cyan-300 font-medium mb-4"
+            className={`text-xl md:text-2xl font-medium mb-4 ${isDark ? 'text-cyan-300' : 'text-cyan-600'}`}
           >
             {companyInfo.subTagline}
           </motion.p>
@@ -133,7 +149,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-lg text-slate-400 max-w-2xl mx-auto mb-10"
+            className={`text-lg max-w-2xl mx-auto mb-10 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}
           >
             Websites, Web Apps, Emails, and Ads — Built Fast, Built Right. 
             We help local businesses establish a powerful online presence.
@@ -158,7 +174,11 @@ const Hero: React.FC = () => {
             
             <motion.button
               onClick={() => scrollToSection('#portfolio')}
-              className="px-8 py-4 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-cyan-500/30 transition-all"
+              className={`px-8 py-4 font-semibold rounded-xl border transition-all ${
+                isDark 
+                  ? 'text-white border-white/20 hover:bg-white/5 hover:border-cyan-500/30' 
+                  : 'text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-cyan-500'
+              }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -177,13 +197,17 @@ const Hero: React.FC = () => {
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all"
+              className={`text-center p-6 rounded-2xl border transition-all ${
+                isDark 
+                  ? 'bg-white/[0.02] border-white/[0.06] hover:border-cyan-500/30' 
+                  : 'bg-white/80 border-slate-200 hover:border-cyan-500/50 shadow-sm'
+              }`}
               whileHover={{ y: -4, borderColor: "rgba(6, 182, 212, 0.4)" }}
             >
               <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
                 {stat.value}
               </div>
-              <div className="text-slate-500 text-sm">{stat.label}</div>
+              <div className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -195,7 +219,9 @@ const Hero: React.FC = () => {
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-10 rounded-full border-2 border-slate-700 flex justify-center pt-2">
+        <div className={`w-6 h-10 rounded-full border-2 flex justify-center pt-2 ${
+          isDark ? 'border-slate-700' : 'border-slate-300'
+        }`}>
           <motion.div
             className="w-1.5 h-2.5 bg-cyan-400 rounded-full"
             animate={{ y: [0, 6, 0], opacity: [1, 0.3, 1] }}
