@@ -70,172 +70,97 @@ const translations = {
       about: 'About',
       services: 'Services',
       portfolio: 'Portfolio',
-      team: 'Team',
+      pricing: 'Early Access',
       contact: 'Contact',
-      getStarted: 'Get Started'
+      bookCall: 'Book Free Call'
     },
     hero: {
-      badge: 'Digital Excellence in Qatar',
-      title1: 'Transforming',
-      title2: 'Digital Visions',
-      title3: 'Into Reality',
-      description: 'Transforming Ideas into Digital Excellence. We craft innovative digital solutions that elevate brands and drive business growth across the Gulf region.',
-      cta1: 'Start Your Project',
-      cta2: 'View Our Work'
-    },
-    stats: {
-      projects: 'Projects Completed',
-      clients: 'Happy Clients',
-      experience: 'Years Experience',
-      team: 'Team Members'
+      badge: 'Web Design & Development Studio',
+      title1: 'Modern Websites',
+      title2: 'That Grow',
+      title3: 'Your Business',
+      subtitle: 'Built in Chicago. Expanding to Doha.',
+      description: 'We create stunning, high-performance websites for local businesses. From auto repair shops to restaurants, we help you attract more customers online.',
+      cta1: 'Book Free Consultation',
+      cta2: 'View Demo Projects'
     },
     about: {
-      badge: 'About Us',
-      title: 'Why Choose',
-      description: 'Founded by Tijani Sylla with a vision to revolutionize digital consulting in the Gulf region, Sylla Consulting has grown to become a trusted partner for businesses seeking innovative digital solutions. Our team combines creativity with technical expertise to deliver exceptional results.',
-      mission: 'Our Mission',
-      missionText: 'To empower businesses in Qatar and beyond with cutting-edge digital strategies that drive growth, enhance brand visibility, and create meaningful connections with their audiences.',
-      vision: 'Our Vision',
-      visionText: 'To be the premier digital consulting firm in the Middle East, known for innovation, excellence, and transformative client partnerships that shape the future of digital business.',
-      established: 'Est.',
-      serving: 'Serving Excellence',
-      expertTeam: 'Expert Team',
-      professionals: 'Professionals',
-      diverseTalents: 'Diverse talents driving innovation',
-      basedIn: 'Based in'
+      badge: 'About SyllaTech',
+      title: 'Building Digital',
+      titleHighlight: 'Excellence',
+      story: 'SyllaTech was founded by Tijani Youssouf Sylla with a simple mission: help local businesses thrive in the digital age. Based in Chicago and expanding to Doha, Qatar, we bring Silicon Valley-quality web solutions to businesses that deserve better than cookie-cutter templates.',
+      founderTitle: 'Meet the Founder',
+      languages: 'Multilingual Advantage',
+      languagesList: 'Fluent in English, French, Arabic, Portuguese, and Spanish - we communicate with clients worldwide.'
     },
     services: {
-      badge: 'What We Offer',
+      badge: 'What We Build',
       title: 'Our',
       titleHighlight: 'Services',
-      description: 'Comprehensive digital solutions tailored to elevate your brand and drive business growth',
-      learnMore: 'Learn More',
-      webDesign: {
-        title: 'Web Design & Development',
-        description: 'Creating stunning, responsive websites that captivate audiences and drive conversions.',
-        features: ['Custom UI/UX Design', 'Responsive Development', 'E-commerce Solutions', 'CMS Integration']
-      },
-      branding: {
-        title: 'Brand Strategy',
-        description: 'Building powerful brand identities that resonate with your target market.',
-        features: ['Logo Design', 'Brand Guidelines', 'Visual Identity', 'Brand Positioning']
-      },
-      digitalMarketing: {
-        title: 'Digital Marketing',
-        description: 'Data-driven marketing strategies that maximize your ROI and reach.',
-        features: ['SEO Optimization', 'PPC Campaigns', 'Content Strategy', 'Analytics & Reporting']
-      },
-      socialMedia: {
-        title: 'Social Media Management',
-        description: 'Engaging social presence that builds community and drives engagement.',
-        features: ['Content Creation', 'Community Management', 'Influencer Marketing', 'Social Analytics']
-      },
-      content: {
-        title: 'Content Production',
-        description: 'High-quality content that tells your story and connects with audiences.',
-        features: ['Videography', 'Photography', 'Copywriting', 'Motion Graphics']
-      },
-      it: {
-        title: 'IT Consulting',
-        description: 'Strategic technology solutions that optimize your business operations.',
-        features: ['System Integration', 'Cloud Solutions', 'Security Consulting', 'Tech Support']
-      }
+      description: 'Everything you need to establish a powerful online presence',
+      learnMore: 'Learn More'
     },
     portfolio: {
-      badge: 'Our Work',
-      title: 'Featured',
-      titleHighlight: 'Portfolio',
-      description: 'Explore our latest projects and see how we\'ve helped brands achieve digital excellence',
-      viewProject: 'View Project',
-      viewAll: 'View All Projects',
-      categories: {
-        all: 'All',
-        webDesign: 'Web Design',
-        branding: 'Branding',
-        socialMedia: 'Social Media',
-        development: 'Development',
-        digitalMarketing: 'Digital Marketing',
-        contentProduction: 'Content Production'
-      }
+      badge: 'Demo Projects',
+      title: 'What We Can',
+      titleHighlight: 'Build For You',
+      description: 'Explore our demo projects showcasing what we can create for your business',
+      viewDemo: 'View Demo',
+      features: 'Key Features'
     },
-    team: {
-      badge: 'Our Team',
-      title: 'Meet The',
-      titleHighlight: 'Creative Minds',
-      description: 'A talented team of professionals dedicated to bringing your digital vision to life'
+    earlyAccess: {
+      badge: 'Limited Opportunity',
+      title: 'Be One of Our',
+      titleHighlight: 'First Clients',
+      description: "We're a new startup, and that means incredible opportunities for early partners. Get premium web development at founding partner rates.",
+      cta: 'Claim Your Spot',
+      benefit1: 'Founding Partner Pricing',
+      benefit1Desc: 'Lock in special rates as one of our first clients',
+      benefit2: 'Priority Support',
+      benefit2Desc: 'Direct access to the founder for all your needs',
+      benefit3: 'Shape Our Services',
+      benefit3Desc: 'Your feedback directly influences our offerings',
+      benefit4: 'Long-term Partnership',
+      benefit4Desc: 'Grow with us as we expand globally'
     },
-    testimonials: {
-      badge: 'Testimonials',
-      title: 'What Our',
-      titleHighlight: 'Clients Say'
-    },
-    clients: {
-      badge: 'Trusted By',
-      title: 'Our Major Clients'
+    booking: {
+      badge: 'Free Consultation',
+      title: "Let's Discuss",
+      titleHighlight: 'Your Project',
+      description: 'Book a free 30-minute call to discuss your business needs. No pressure, no obligation - just a friendly conversation about how we can help.',
+      cta: 'Schedule Your Call',
+      benefits: ['Free 30-min consultation', 'No obligation', 'Custom quote within 24h']
     },
     contact: {
       badge: 'Get In Touch',
-      title: "Let's Start Your",
+      title: 'Start Your',
       titleHighlight: 'Project',
-      description: "Ready to transform your digital presence? We'd love to hear from you.",
-      visitUs: 'Visit Us',
-      callUs: 'Call Us',
-      emailUs: 'Email Us',
-      workingHours: 'Working Hours',
-      workingHoursValue: 'Sun - Thu: 9:00 AM - 6:00 PM',
+      description: "Ready to take your business online? Let's talk.",
+      location: 'Location',
+      chicago: 'Chicago, USA',
+      expanding: 'Soon in Doha, Qatar',
+      email: 'Email',
+      phone: 'Phone',
       form: {
         name: 'Your Name',
-        namePlaceholder: 'John Doe',
         email: 'Email Address',
-        emailPlaceholder: 'john@example.com',
-        phone: 'Phone Number',
-        phonePlaceholder: '+974 1234 5678',
-        subject: 'Subject',
-        subjectPlaceholder: 'Select a service',
-        message: 'Your Message',
-        messagePlaceholder: 'Tell us about your project...',
+        business: 'Business Type',
+        message: 'Tell us about your project',
         submit: 'Send Message',
-        sending: 'Sending...',
-        success: 'Message sent successfully!',
-        successDesc: "We'll get back to you within 24 hours."
-      },
-      services: {
-        webDesign: 'Web Design & Development',
-        branding: 'Brand Strategy',
-        digitalMarketing: 'Digital Marketing',
-        socialMedia: 'Social Media Management',
-        content: 'Content Production',
-        other: 'Other'
+        sending: 'Sending...'
       }
     },
     footer: {
-      description: 'Transforming digital visions into reality. Your trusted partner for innovative digital solutions in Qatar and beyond.',
-      company: 'Company',
-      aboutUs: 'About Us',
-      ourTeam: 'Our Team',
-      careers: 'Careers',
+      description: 'Modern web development for businesses that want to grow. Based in Chicago, expanding to Doha.',
       services: 'Services',
-      webDesign: 'Web Design',
-      branding: 'Branding',
-      digitalMarketing: 'Digital Marketing',
-      socialMedia: 'Social Media',
-      resources: 'Resources',
-      caseStudies: 'Case Studies',
-      blog: 'Blog',
-      faq: 'FAQ',
-      rights: 'All rights reserved.'
+      company: 'Company',
+      connect: 'Connect',
+      rights: 'All rights reserved.',
+      builtWith: 'Built with'
     },
     whatsapp: {
       tooltip: 'Chat with us',
-      message: "Hello! I'm interested in learning more about Sylla Consulting's services."
-    },
-    roles: {
-      founderCeo: 'Founder & CEO',
-      creativeDirector: 'Creative Director',
-      leadDeveloper: 'Lead Developer',
-      marketingManager: 'Marketing Manager',
-      brandStrategist: 'Brand Strategist',
-      projectManager: 'Project Manager'
+      message: "Hi! I'm interested in SyllaTech's web development services."
     }
   },
   ar: {
@@ -244,172 +169,97 @@ const translations = {
       about: 'من نحن',
       services: 'خدماتنا',
       portfolio: 'أعمالنا',
-      team: 'فريقنا',
+      pricing: 'الوصول المبكر',
       contact: 'اتصل بنا',
-      getStarted: 'ابدأ الآن'
+      bookCall: 'احجز مكالمة مجانية'
     },
     hero: {
-      badge: 'التميز الرقمي في قطر',
-      title1: 'نحوّل',
-      title2: 'الرؤى الرقمية',
-      title3: 'إلى واقع',
-      description: 'نحوّل الأفكار إلى تميز رقمي. نصنع حلولاً رقمية مبتكرة ترتقي بالعلامات التجارية وتدفع نمو الأعمال في منطقة الخليج.',
-      cta1: 'ابدأ مشروعك',
-      cta2: 'شاهد أعمالنا'
-    },
-    stats: {
-      projects: 'مشروع مكتمل',
-      clients: 'عميل سعيد',
-      experience: 'سنوات خبرة',
-      team: 'عضو فريق'
+      badge: 'استوديو تصميم وتطوير الويب',
+      title1: 'مواقع حديثة',
+      title2: 'تنمّي',
+      title3: 'أعمالك',
+      subtitle: 'مقرنا شيكاغو. نتوسع إلى الدوحة.',
+      description: 'نصمم مواقع ويب مذهلة وعالية الأداء للشركات المحلية. من ورش السيارات إلى المطاعم، نساعدك على جذب المزيد من العملاء.',
+      cta1: 'احجز استشارة مجانية',
+      cta2: 'شاهد المشاريع'
     },
     about: {
-      badge: 'من نحن',
-      title: 'لماذا تختار',
-      description: 'أسسها تيجاني سيلا برؤية لإحداث ثورة في الاستشارات الرقمية في منطقة الخليج، نمت سيلا للاستشارات لتصبح شريكاً موثوقاً للشركات التي تبحث عن حلول رقمية مبتكرة. يجمع فريقنا بين الإبداع والخبرة التقنية لتقديم نتائج استثنائية.',
-      mission: 'مهمتنا',
-      missionText: 'تمكين الشركات في قطر وخارجها باستراتيجيات رقمية متطورة تدفع النمو وتعزز ظهور العلامة التجارية وتخلق روابط ذات معنى مع جماهيرها.',
-      vision: 'رؤيتنا',
-      visionText: 'أن نكون شركة الاستشارات الرقمية الرائدة في الشرق الأوسط، المعروفة بالابتكار والتميز والشراكات التحويلية مع العملاء التي تشكل مستقبل الأعمال الرقمية.',
-      established: 'تأسست',
-      serving: 'نخدم بتميز',
-      expertTeam: 'فريق خبير',
-      professionals: 'محترف',
-      diverseTalents: 'مواهب متنوعة تقود الابتكار',
-      basedIn: 'مقرنا في'
+      badge: 'عن SyllaTech',
+      title: 'نبني التميز',
+      titleHighlight: 'الرقمي',
+      story: 'تأسست SyllaTech على يد تيجاني يوسف سيلا بمهمة بسيطة: مساعدة الشركات المحلية على الازدهار في العصر الرقمي. مقرنا في شيكاغو ونتوسع إلى الدوحة، قطر.',
+      founderTitle: 'تعرف على المؤسس',
+      languages: 'ميزة تعدد اللغات',
+      languagesList: 'نتحدث الإنجليزية والفرنسية والعربية والبرتغالية والإسبانية بطلاقة.'
     },
     services: {
-      badge: 'ما نقدمه',
+      badge: 'ما نبنيه',
       title: '',
       titleHighlight: 'خدماتنا',
-      description: 'حلول رقمية شاملة مصممة لرفع مستوى علامتك التجارية ودفع نمو أعمالك',
-      learnMore: 'اعرف المزيد',
-      webDesign: {
-        title: 'تصميم وتطوير المواقع',
-        description: 'إنشاء مواقع ويب مذهلة ومتجاوبة تجذب الجماهير وتزيد التحويلات.',
-        features: ['تصميم UI/UX مخصص', 'تطوير متجاوب', 'حلول التجارة الإلكترونية', 'تكامل CMS']
-      },
-      branding: {
-        title: 'استراتيجية العلامة التجارية',
-        description: 'بناء هويات علامات تجارية قوية تتردد صداها مع سوقك المستهدف.',
-        features: ['تصميم الشعار', 'إرشادات العلامة التجارية', 'الهوية البصرية', 'تموضع العلامة التجارية']
-      },
-      digitalMarketing: {
-        title: 'التسويق الرقمي',
-        description: 'استراتيجيات تسويق مبنية على البيانات تزيد من عائد الاستثمار والوصول.',
-        features: ['تحسين محركات البحث', 'حملات PPC', 'استراتيجية المحتوى', 'التحليلات والتقارير']
-      },
-      socialMedia: {
-        title: 'إدارة وسائل التواصل الاجتماعي',
-        description: 'حضور اجتماعي جذاب يبني المجتمع ويزيد التفاعل.',
-        features: ['إنشاء المحتوى', 'إدارة المجتمع', 'التسويق عبر المؤثرين', 'تحليلات التواصل الاجتماعي']
-      },
-      content: {
-        title: 'إنتاج المحتوى',
-        description: 'محتوى عالي الجودة يروي قصتك ويتواصل مع الجماهير.',
-        features: ['التصوير المرئي', 'التصوير الفوتوغرافي', 'كتابة المحتوى', 'الرسوم المتحركة']
-      },
-      it: {
-        title: 'استشارات تكنولوجيا المعلومات',
-        description: 'حلول تقنية استراتيجية تحسن عمليات أعمالك.',
-        features: ['تكامل الأنظمة', 'حلول السحابة', 'استشارات الأمان', 'الدعم التقني']
-      }
+      description: 'كل ما تحتاجه لبناء حضور رقمي قوي',
+      learnMore: 'اعرف المزيد'
     },
     portfolio: {
-      badge: 'أعمالنا',
-      title: 'معرض',
-      titleHighlight: 'الأعمال',
-      description: 'استكشف أحدث مشاريعنا وشاهد كيف ساعدنا العلامات التجارية في تحقيق التميز الرقمي',
-      viewProject: 'عرض المشروع',
-      viewAll: 'عرض جميع المشاريع',
-      categories: {
-        all: 'الكل',
-        webDesign: 'تصميم المواقع',
-        branding: 'العلامات التجارية',
-        socialMedia: 'التواصل الاجتماعي',
-        development: 'التطوير',
-        digitalMarketing: 'التسويق الرقمي',
-        contentProduction: 'إنتاج المحتوى'
-      }
+      badge: 'مشاريع تجريبية',
+      title: 'ما يمكننا',
+      titleHighlight: 'بناؤه لك',
+      description: 'استكشف مشاريعنا التجريبية',
+      viewDemo: 'عرض المشروع',
+      features: 'الميزات الرئيسية'
     },
-    team: {
-      badge: 'فريقنا',
-      title: 'تعرف على',
-      titleHighlight: 'العقول المبدعة',
-      description: 'فريق موهوب من المحترفين مكرس لتحقيق رؤيتك الرقمية'
+    earlyAccess: {
+      badge: 'فرصة محدودة',
+      title: 'كن أحد',
+      titleHighlight: 'عملائنا الأوائل',
+      description: 'نحن شركة ناشئة جديدة، وهذا يعني فرصًا مذهلة للشركاء الأوائل.',
+      cta: 'احجز مكانك',
+      benefit1: 'أسعار الشركاء المؤسسين',
+      benefit1Desc: 'احصل على أسعار خاصة كأحد عملائنا الأوائل',
+      benefit2: 'دعم ذو أولوية',
+      benefit2Desc: 'تواصل مباشر مع المؤسس',
+      benefit3: 'شكّل خدماتنا',
+      benefit3Desc: 'ملاحظاتك تؤثر مباشرة على عروضنا',
+      benefit4: 'شراكة طويلة الأمد',
+      benefit4Desc: 'انمُ معنا أثناء توسعنا عالمياً'
     },
-    testimonials: {
-      badge: 'آراء العملاء',
-      title: 'ماذا يقول',
-      titleHighlight: 'عملاؤنا'
-    },
-    clients: {
-      badge: 'يثقون بنا',
-      title: 'عملاؤنا الرئيسيون'
+    booking: {
+      badge: 'استشارة مجانية',
+      title: 'لنناقش',
+      titleHighlight: 'مشروعك',
+      description: 'احجز مكالمة مجانية لمدة 30 دقيقة لمناقشة احتياجات عملك.',
+      cta: 'جدولة مكالمتك',
+      benefits: ['استشارة مجانية 30 دقيقة', 'بدون التزام', 'عرض سعر خلال 24 ساعة']
     },
     contact: {
       badge: 'تواصل معنا',
-      title: 'لنبدأ',
+      title: 'ابدأ',
       titleHighlight: 'مشروعك',
-      description: 'هل أنت مستعد لتحويل حضورك الرقمي؟ يسعدنا سماع منك.',
-      visitUs: 'زرنا',
-      callUs: 'اتصل بنا',
-      emailUs: 'راسلنا',
-      workingHours: 'ساعات العمل',
-      workingHoursValue: 'الأحد - الخميس: 9:00 ص - 6:00 م',
+      description: 'مستعد لنقل عملك للإنترنت؟ لنتحدث.',
+      location: 'الموقع',
+      chicago: 'شيكاغو، الولايات المتحدة',
+      expanding: 'قريباً في الدوحة، قطر',
+      email: 'البريد الإلكتروني',
+      phone: 'الهاتف',
       form: {
         name: 'اسمك',
-        namePlaceholder: 'محمد أحمد',
         email: 'البريد الإلكتروني',
-        emailPlaceholder: 'mohammed@example.com',
-        phone: 'رقم الهاتف',
-        phonePlaceholder: '+974 1234 5678',
-        subject: 'الموضوع',
-        subjectPlaceholder: 'اختر خدمة',
-        message: 'رسالتك',
-        messagePlaceholder: 'أخبرنا عن مشروعك...',
+        business: 'نوع العمل',
+        message: 'أخبرنا عن مشروعك',
         submit: 'إرسال الرسالة',
-        sending: 'جاري الإرسال...',
-        success: 'تم إرسال الرسالة بنجاح!',
-        successDesc: 'سنرد عليك خلال 24 ساعة.'
-      },
-      services: {
-        webDesign: 'تصميم وتطوير المواقع',
-        branding: 'استراتيجية العلامة التجارية',
-        digitalMarketing: 'التسويق الرقمي',
-        socialMedia: 'إدارة وسائل التواصل الاجتماعي',
-        content: 'إنتاج المحتوى',
-        other: 'أخرى'
+        sending: 'جاري الإرسال...'
       }
     },
     footer: {
-      description: 'نحوّل الرؤى الرقمية إلى واقع. شريكك الموثوق للحلول الرقمية المبتكرة في قطر وخارجها.',
-      company: 'الشركة',
-      aboutUs: 'من نحن',
-      ourTeam: 'فريقنا',
-      careers: 'الوظائف',
+      description: 'تطوير ويب حديث للشركات التي تريد النمو. مقرنا شيكاغو، نتوسع للدوحة.',
       services: 'الخدمات',
-      webDesign: 'تصميم المواقع',
-      branding: 'العلامات التجارية',
-      digitalMarketing: 'التسويق الرقمي',
-      socialMedia: 'التواصل الاجتماعي',
-      resources: 'الموارد',
-      caseStudies: 'دراسات الحالة',
-      blog: 'المدونة',
-      faq: 'الأسئلة الشائعة',
-      rights: 'جميع الحقوق محفوظة.'
+      company: 'الشركة',
+      connect: 'تواصل',
+      rights: 'جميع الحقوق محفوظة.',
+      builtWith: 'صُنع بـ'
     },
     whatsapp: {
       tooltip: 'تحدث معنا',
-      message: 'مرحباً! أنا مهتم بمعرفة المزيد عن خدمات سيلا للاستشارات.'
-    },
-    roles: {
-      founderCeo: 'المؤسس والرئيس التنفيذي',
-      creativeDirector: 'المدير الإبداعي',
-      leadDeveloper: 'مطور رئيسي',
-      marketingManager: 'مدير التسويق',
-      brandStrategist: 'استراتيجي العلامة التجارية',
-      projectManager: 'مدير المشاريع'
+      message: 'مرحباً! أنا مهتم بخدمات SyllaTech لتطوير الويب.'
     }
   }
 };
