@@ -4,9 +4,11 @@ import { useInView } from 'react-intersection-observer';
 import { User, Globe, MessageSquare } from 'lucide-react';
 import { aboutData, companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const About: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
@@ -25,8 +27,14 @@ const About: React.FC = () => {
   return (
     <section id="about" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-600/5 rounded-full blur-[120px]" />
+      <div className={`absolute inset-0 ${
+        isDark 
+          ? 'bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]' 
+          : 'bg-gradient-to-b from-white via-slate-50 to-white'
+      }`} />
+      <div className={`absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-[120px] ${
+        isDark ? 'bg-teal-600/5' : 'bg-teal-600/10'
+      }`} />
 
       <motion.div
         ref={ref}
@@ -37,10 +45,14 @@ const About: React.FC = () => {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-sm font-medium mb-4">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+            isDark 
+              ? 'bg-teal-500/10 border border-teal-500/20 text-teal-400' 
+              : 'bg-teal-50 border border-teal-200 text-teal-600'
+          }`}>
             About SyllaTech
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Building Digital{' '}
             <span className="bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
               Excellence
@@ -51,21 +63,31 @@ const About: React.FC = () => {
         <div className={`grid lg:grid-cols-2 gap-12 items-center ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
           {/* Story */}
           <motion.div variants={itemVariants} className={isRTL ? 'lg:col-start-2' : ''}>
-            <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-              <p className={`text-lg text-slate-300 leading-relaxed mb-8 ${isRTL ? 'text-right' : ''}`}>
+            <div className={`p-8 rounded-2xl border ${
+              isDark 
+                ? 'bg-white/[0.02] border-white/[0.06]' 
+                : 'bg-white border-slate-200 shadow-sm'
+            }`}>
+              <p className={`text-lg leading-relaxed mb-8 ${isRTL ? 'text-right' : ''} ${
+                isDark ? 'text-slate-300' : 'text-slate-600'
+              }`}>
                 {aboutData.story}
               </p>
 
               {/* Location Info */}
-              <div className={`flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 to-teal-500/10 border border-cyan-500/20 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-4 p-4 rounded-xl ${isRTL ? 'flex-row-reverse' : ''} ${
+                isDark 
+                  ? 'bg-gradient-to-r from-cyan-500/10 to-teal-500/10 border border-cyan-500/20' 
+                  : 'bg-gradient-to-r from-cyan-50 to-teal-50 border border-cyan-200'
+              }`}>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-slate-300 text-sm">{companyInfo.location}</span>
+                  <span className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{companyInfo.location}</span>
                 </div>
-                <span className="text-slate-600">→</span>
+                <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>→</span>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-cyan-400 text-sm">Soon: {companyInfo.expandingTo}</span>
+                  <span className={`text-sm ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Soon: {companyInfo.expandingTo}</span>
                 </div>
               </div>
             </div>
@@ -74,37 +96,51 @@ const About: React.FC = () => {
           {/* Founder & Languages */}
           <motion.div variants={itemVariants} className={`space-y-6 ${isRTL ? 'lg:col-start-1' : ''}`}>
             {/* Founder Card */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all">
+            <div className={`p-6 rounded-2xl border transition-all ${
+              isDark 
+                ? 'bg-white/[0.02] border-white/[0.06] hover:border-cyan-500/30' 
+                : 'bg-white border-slate-200 hover:border-cyan-500/50 shadow-sm'
+            }`}>
               <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
                   <User className="w-7 h-7 text-white" />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
-                  <h3 className="text-lg font-semibold text-white">{aboutData.founder.name}</h3>
-                  <p className="text-cyan-400 text-sm">{aboutData.founder.role}</p>
+                  <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{aboutData.founder.name}</h3>
+                  <p className={isDark ? 'text-cyan-400' : 'text-cyan-600'} style={{ fontSize: '0.875rem' }}>{aboutData.founder.role}</p>
                 </div>
               </div>
-              <p className={`text-slate-400 text-sm ${isRTL ? 'text-right' : ''}`}>
+              <p className={`text-sm ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 {aboutData.founder.bio}
               </p>
             </div>
 
             {/* Languages Card */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-teal-500/30 transition-all">
+            <div className={`p-6 rounded-2xl border transition-all ${
+              isDark 
+                ? 'bg-white/[0.02] border-white/[0.06] hover:border-teal-500/30' 
+                : 'bg-white border-slate-200 hover:border-teal-500/50 shadow-sm'
+            }`}>
               <div className={`flex items-center gap-3 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-teal-400" />
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                  isDark ? 'bg-teal-500/20' : 'bg-teal-50'
+                }`}>
+                  <Globe className="w-5 h-5 text-teal-500" />
                 </div>
-                <h3 className="text-white font-semibold">Multilingual Advantage</h3>
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Multilingual Advantage</h3>
               </div>
-              <p className={`text-slate-400 text-sm mb-4 ${isRTL ? 'text-right' : ''}`}>
+              <p className={`text-sm mb-4 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 We communicate with clients worldwide in their language.
               </p>
               <div className={`flex flex-wrap gap-2 ${isRTL ? 'justify-end' : ''}`}>
                 {aboutData.founder.languages.map((lang, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-medium"
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+                      isDark 
+                        ? 'bg-teal-500/10 border border-teal-500/20 text-teal-400' 
+                        : 'bg-teal-50 border border-teal-200 text-teal-600'
+                    }`}
                   >
                     {lang}
                   </span>
@@ -113,17 +149,23 @@ const About: React.FC = () => {
             </div>
 
             {/* Early Partner CTA */}
-            <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+            <div className={`p-6 rounded-2xl ${
+              isDark 
+                ? 'bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20' 
+                : 'bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200'
+            }`}>
               <div className={`flex items-center gap-3 mb-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <MessageSquare className="w-5 h-5 text-purple-400" />
-                <h3 className="text-white font-semibold">Be an Early Partner</h3>
+                <MessageSquare className="w-5 h-5 text-purple-500" />
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Be an Early Partner</h3>
               </div>
-              <p className={`text-slate-400 text-sm mb-4 ${isRTL ? 'text-right' : ''}`}>
+              <p className={`text-sm mb-4 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 New agency building our client base. Get founding partner pricing and priority support.
               </p>
               <motion.a
                 href="#booking"
-                className={`inline-flex items-center gap-2 text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
+                className={`inline-flex items-center gap-2 text-sm font-medium transition-colors ${isRTL ? 'flex-row-reverse' : ''} ${
+                  isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'
+                }`}
                 whileHover={{ x: isRTL ? -4 : 4 }}
               >
                 Claim Your Spot
