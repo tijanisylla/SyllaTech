@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const WhatsAppWidget: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const phoneNumber = companyInfo.whatsapp.replace(/[^0-9]/g, '');
   const message = encodeURIComponent("Hi! I'm interested in SyllaTech's web development services.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -34,7 +36,11 @@ const WhatsAppWidget: React.FC = () => {
       </motion.div>
 
       {/* Tooltip */}
-      <div className={`absolute ${isRTL ? 'left-full ml-3' : 'right-full mr-3'} top-1/2 -translate-y-1/2 px-3 py-2 bg-slate-900 border border-white/10 text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap`}>
+      <div className={`absolute ${isRTL ? 'left-full ml-3' : 'right-full mr-3'} top-1/2 -translate-y-1/2 px-3 py-2 text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap ${
+        isDark 
+          ? 'bg-slate-900 border border-white/10 text-white' 
+          : 'bg-white border border-slate-200 text-slate-700 shadow-md'
+      }`}>
         Chat with us
       </div>
     </motion.a>
