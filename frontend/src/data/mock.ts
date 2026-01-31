@@ -1,174 +1,126 @@
 export const companyInfo = {
-  name: "Sylla Consulting",
-  tagline: "Transforming Ideas into Digital Excellence",
-  founder: "Tijani Sylla",
-  location: "Doha, Qatar",
-  phone: "+974 4444 5555",
-  email: "info@syllaconsulting.qa",
+  name: "SyllaTech",
+  tagline: "Modern Websites That Grow Your Business",
+  subTagline: "Built in Chicago. Expanding to Doha.",
+  founder: "Tijani Youssouf Sylla",
+  location: "Chicago, USA",
+  expandingTo: "Doha, Qatar",
+  email: "hello@syllatech.com",
+  phone: "+1 (312) 690-0771",
   whatsapp: "+13126900771",
-  established: "2018",
-  address: "West Bay Tower, Floor 15, Doha, Qatar"
 };
 
 export const aboutData = {
-  title: "About Sylla",
-  description: "Founded by Tijani Sylla with a vision to revolutionize digital consulting in the Gulf region, Sylla Consulting has grown to become a trusted partner for businesses seeking innovative digital solutions. Our team combines creativity with technical expertise to deliver exceptional results.",
-  mission: "To empower businesses in Qatar and beyond with cutting-edge digital strategies that drive growth, enhance brand visibility, and create meaningful connections with their audiences.",
-  vision: "To be the premier digital consulting firm in the Middle East, known for innovation, excellence, and transformative client partnerships that shape the future of digital business."
+  story: `SyllaTech was founded by Tijani Youssouf Sylla with a simple mission: help local businesses thrive in the digital age. Based in Chicago and expanding to Doha, Qatar, we bring Silicon Valley-quality web solutions to businesses that deserve better than cookie-cutter templates.`,
+  founder: {
+    name: "Tijani Youssouf Sylla",
+    role: "Founder & Lead Developer",
+    bio: "Full-stack developer passionate about creating digital experiences that drive real business results. Multilingual professional fluent in English, French, Arabic, Portuguese, and Spanish.",
+    languages: ["English", "French", "Arabic", "Portuguese", "Spanish"]
+  }
 };
 
 export const services = [
   {
     id: 1,
-    title: "Web Design & Development",
-    description: "Creating stunning, responsive websites that captivate audiences and drive conversions.",
-    features: ["Custom UI/UX Design", "Responsive Development", "E-commerce Solutions", "CMS Integration"]
+    title: "Website Design",
+    description: "Beautiful, conversion-focused websites that make your business stand out from the competition.",
+    icon: "palette",
+    features: ["Custom UI/UX Design", "Mobile-First Approach", "Brand Integration", "Fast Loading"]
   },
   {
     id: 2,
-    title: "Brand Strategy",
-    description: "Building powerful brand identities that resonate with your target market.",
-    features: ["Logo Design", "Brand Guidelines", "Visual Identity", "Brand Positioning"]
+    title: "Full-Stack Development",
+    description: "Powerful web applications built with modern technologies like React, TypeScript, and Node.js.",
+    icon: "code",
+    features: ["React & TypeScript", "Node.js Backend", "Database Design", "API Integration"]
   },
   {
     id: 3,
-    title: "Digital Marketing",
-    description: "Data-driven marketing strategies that maximize your ROI and reach.",
-    features: ["SEO Optimization", "PPC Campaigns", "Content Strategy", "Analytics & Reporting"]
+    title: "Booking Systems",
+    description: "Let customers book appointments 24/7 with automated scheduling and reminders.",
+    icon: "calendar",
+    features: ["Online Scheduling", "Payment Integration", "Email Reminders", "Calendar Sync"]
   },
   {
     id: 4,
-    title: "Social Media Management",
-    description: "Engaging social presence that builds community and drives engagement.",
-    features: ["Content Creation", "Community Management", "Influencer Marketing", "Social Analytics"]
+    title: "Business Websites",
+    description: "Professional websites for auto repair shops, restaurants, car washes, and local businesses.",
+    icon: "building",
+    features: ["Local SEO", "Google Integration", "Review Management", "Contact Forms"]
   },
   {
     id: 5,
-    title: "Content Production",
-    description: "High-quality content that tells your story and connects with audiences.",
-    features: ["Videography", "Photography", "Copywriting", "Motion Graphics"]
+    title: "Admin Dashboards",
+    description: "Custom dashboards to manage your business data, customers, and operations efficiently.",
+    icon: "layout",
+    features: ["Real-time Analytics", "User Management", "Custom Reports", "Data Visualization"]
   },
   {
     id: 6,
-    title: "IT Consulting",
-    description: "Strategic technology solutions that optimize your business operations.",
-    features: ["System Integration", "Cloud Solutions", "Security Consulting", "Tech Support"]
+    title: "Maintenance Plans",
+    description: "Ongoing support, updates, and hosting to keep your website secure and running smoothly.",
+    icon: "shield",
+    features: ["24/7 Monitoring", "Regular Updates", "Security Patches", "Priority Support"]
   }
 ];
 
-export const portfolio = [
+export const demoProjects = [
   {
     id: 1,
-    title: "Qatar Airways Rebrand",
-    category: "Branding",
-    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop"
+    title: "AutoPro Garage",
+    category: "Auto Repair Shop",
+    description: "Modern website for a full-service auto repair business with online booking.",
+    image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=500&fit=crop",
+    features: ["Service Booking", "Price Estimator", "Customer Portal"],
+    color: "from-blue-500 to-cyan-500"
   },
   {
     id: 2,
-    title: "Lusail City Website",
-    category: "Web Design",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop"
+    title: "Bella Cucina",
+    category: "Restaurant",
+    description: "Elegant restaurant website with online ordering and table reservations.",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop",
+    features: ["Online Menu", "Table Booking", "Order System"],
+    color: "from-amber-500 to-orange-500"
   },
   {
     id: 3,
-    title: "Al Meera Social Campaign",
-    category: "Social Media",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop"
-  },
-  {
-    id: 4,
-    title: "Katara Cultural App",
-    category: "Development",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop"
-  },
-  {
-    id: 5,
-    title: "Pearl Qatar Marketing",
-    category: "Digital Marketing",
-    image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=600&h=400&fit=crop"
-  },
-  {
-    id: 6,
-    title: "Souq Waqif Digital",
-    category: "Content Production",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop"
+    title: "SparkleWash",
+    category: "Car Wash",
+    description: "Clean, modern site for a premium car wash with membership options.",
+    image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&h=500&fit=crop",
+    features: ["Membership Plans", "Appointment Booking", "Loyalty Program"],
+    color: "from-emerald-500 to-teal-500"
   }
 ];
 
-export const team = [
+export const earlyClientBenefits = [
   {
-    id: 1,
-    name: "Tijani Sylla",
-    role: "Founder & CEO",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face"
+    title: "Founding Partner Pricing",
+    description: "Lock in special rates as one of our first clients",
+    icon: "percent"
   },
   {
-    id: 2,
-    name: "Sara Al-Thani",
-    role: "Creative Director",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face"
+    title: "Priority Support",
+    description: "Direct access to the founder for all your needs",
+    icon: "headphones"
   },
   {
-    id: 3,
-    name: "Ahmed Hassan",
-    role: "Lead Developer",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face"
+    title: "Shape Our Services",
+    description: "Your feedback directly influences our offerings",
+    icon: "message"
   },
   {
-    id: 4,
-    name: "Fatima Al-Kuwari",
-    role: "Marketing Manager",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face"
-  },
-  {
-    id: 5,
-    name: "Omar Bin Khalid",
-    role: "Brand Strategist",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face"
-  },
-  {
-    id: 6,
-    name: "Layla Ibrahim",
-    role: "Project Manager",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&crop=face"
+    title: "Long-term Partnership",
+    description: "Grow with us as we expand globally",
+    icon: "handshake"
   }
-];
-
-export const testimonials = [
-  {
-    id: 1,
-    quote: "Sylla Consulting transformed our digital presence completely. Their innovative approach and attention to detail exceeded our expectations. Highly recommended for any business looking to elevate their brand.",
-    author: "Mohammed Al-Naimi",
-    company: "CEO, Qatar Tech Ventures"
-  },
-  {
-    id: 2,
-    quote: "Working with Tijani and his team was an absolute pleasure. They understood our vision from day one and delivered a website that truly represents our brand values. Outstanding work!",
-    author: "Sarah Johnson",
-    company: "Marketing Director, Gulf Innovations"
-  },
-  {
-    id: 3,
-    quote: "The social media strategy developed by Sylla Consulting increased our engagement by 300%. Their data-driven approach and creative content made all the difference for our brand.",
-    author: "Khalid Al-Mansoor",
-    company: "Founder, Doha Retail Group"
-  }
-];
-
-export const clients = [
-  { id: 1, name: "Qatar Airways", logo: "QA" },
-  { id: 2, name: "Ooredoo", logo: "OO" },
-  { id: 3, name: "Al Meera", logo: "AM" },
-  { id: 4, name: "Katara", logo: "KA" },
-  { id: 5, name: "Lusail City", logo: "LC" },
-  { id: 6, name: "Pearl Qatar", logo: "PQ" },
-  { id: 7, name: "Aspire Zone", logo: "AZ" },
-  { id: 8, name: "Vodafone Qatar", logo: "VQ" }
 ];
 
 export const stats = [
-  { value: "150+", label: "Projects Completed" },
-  { value: "80+", label: "Happy Clients" },
-  { value: "7+", label: "Years Experience" },
-  { value: "25+", label: "Team Members" }
+  { value: "5+", label: "Demo Projects" },
+  { value: "100%", label: "Dedication" },
+  { value: "5", label: "Languages Spoken" },
+  { value: "24/7", label: "Support Ready" }
 ];
