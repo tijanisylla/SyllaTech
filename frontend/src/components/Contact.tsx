@@ -4,10 +4,12 @@ import { useInView } from 'react-intersection-observer';
 import { Send, MapPin, Mail, Phone } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 import { toast } from 'sonner';
 
 const Contact: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [formData, setFormData] = useState({
     name: '',
@@ -49,7 +51,11 @@ const Contact: React.FC = () => {
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
+      <div className={`absolute inset-0 ${
+        isDark 
+          ? 'bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]' 
+          : 'bg-gradient-to-b from-white via-slate-50 to-white'
+      }`} />
 
       <motion.div
         ref={ref}
@@ -60,16 +66,20 @@ const Contact: React.FC = () => {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-4">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+            isDark 
+              ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' 
+              : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
+          }`}>
             Get In Touch
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Start Your{' '}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Project
             </span>
           </h2>
-          <p className="text-lg text-slate-400">Ready to take your business online? Let's talk.</p>
+          <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Ready to take your business online? Let's talk.</p>
         </motion.div>
 
         <div className={`grid lg:grid-cols-5 gap-10 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
@@ -78,26 +88,34 @@ const Contact: React.FC = () => {
             {contactInfo.map((info, idx) => (
               <div
                 key={idx}
-                className={`flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all ${isRTL ? 'flex-row-reverse text-right' : ''}`}
+                className={`flex items-start gap-4 p-5 rounded-xl border transition-all ${isRTL ? 'flex-row-reverse text-right' : ''} ${
+                  isDark 
+                    ? 'bg-white/[0.02] border-white/[0.06] hover:border-cyan-500/30' 
+                    : 'bg-white border-slate-200 hover:border-cyan-500/50 shadow-sm'
+                }`}
               >
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 flex-shrink-0">
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  isDark ? 'bg-cyan-500/10 text-cyan-400' : 'bg-cyan-50 text-cyan-600'
+                }`}>
                   {info.icon}
                 </div>
                 <div>
-                  <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">{info.label}</p>
-                  <p className="text-white font-medium">{info.value}</p>
-                  {info.sub && <p className="text-cyan-400 text-sm mt-1">{info.sub}</p>}
+                  <p className={`text-xs uppercase tracking-wider mb-1 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>{info.label}</p>
+                  <p className={`font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>{info.value}</p>
+                  {info.sub && <p className={`text-sm mt-1 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>{info.sub}</p>}
                 </div>
               </div>
             ))}
 
             {/* Map */}
-            <div className="h-40 rounded-xl overflow-hidden bg-white/[0.02] border border-white/[0.06]">
+            <div className={`h-40 rounded-xl overflow-hidden border ${
+              isDark ? 'bg-white/[0.02] border-white/[0.06]' : 'bg-white border-slate-200'
+            }`}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d380511.7463192055!2d-88.01369644999999!3d41.833733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20IL!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
                 width="100%"
                 height="100%"
-                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
+                style={{ border: 0, filter: isDark ? 'invert(90%) hue-rotate(180deg)' : 'none' }}
                 allowFullScreen
                 loading="lazy"
                 title="Chicago Map"
@@ -109,11 +127,15 @@ const Contact: React.FC = () => {
           <motion.div variants={itemVariants} className={`lg:col-span-3 ${isRTL ? 'lg:col-start-1' : ''}`}>
             <form
               onSubmit={handleSubmit}
-              className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
+              className={`p-8 rounded-2xl border ${
+                isDark 
+                  ? 'bg-white/[0.02] border-white/[0.06]' 
+                  : 'bg-white border-slate-200 shadow-sm'
+              }`}
             >
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className={`block text-sm text-slate-400 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                  <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     Your Name *
                   </label>
                   <input
@@ -122,12 +144,16 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className={`w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none transition-all ${isRTL ? 'text-right' : ''}`}
+                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${isRTL ? 'text-right' : ''} ${
+                      isDark 
+                        ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
+                        : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
+                    }`}
                     placeholder="John Doe"
                   />
                 </div>
                 <div>
-                  <label className={`block text-sm text-slate-400 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                  <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     Email *
                   </label>
                   <input
@@ -136,34 +162,42 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none transition-all"
+                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
+                      isDark 
+                        ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
+                        : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
+                    }`}
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
 
               <div className="mb-5">
-                <label className={`block text-sm text-slate-400 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Business Type
                 </label>
                 <select
                   name="business"
                   value={formData.business}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:border-cyan-500/50 focus:outline-none transition-all ${isRTL ? 'text-right' : ''}`}
+                  className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${isRTL ? 'text-right' : ''} ${
+                    isDark 
+                      ? 'bg-white/[0.03] border-white/[0.08] text-white focus:border-cyan-500/50' 
+                      : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-cyan-500'
+                  }`}
                 >
-                  <option value="" className="bg-slate-900">Select your business type</option>
-                  <option value="auto" className="bg-slate-900">Auto Repair / Car Wash</option>
-                  <option value="restaurant" className="bg-slate-900">Restaurant / Cafe</option>
-                  <option value="retail" className="bg-slate-900">Retail / E-commerce</option>
-                  <option value="service" className="bg-slate-900">Service Business</option>
-                  <option value="startup" className="bg-slate-900">Startup / Tech</option>
-                  <option value="other" className="bg-slate-900">Other</option>
+                  <option value="" className={isDark ? 'bg-slate-900' : 'bg-white'}>Select your business type</option>
+                  <option value="auto" className={isDark ? 'bg-slate-900' : 'bg-white'}>Auto Repair / Car Wash</option>
+                  <option value="restaurant" className={isDark ? 'bg-slate-900' : 'bg-white'}>Restaurant / Cafe</option>
+                  <option value="retail" className={isDark ? 'bg-slate-900' : 'bg-white'}>Retail / E-commerce</option>
+                  <option value="service" className={isDark ? 'bg-slate-900' : 'bg-white'}>Service Business</option>
+                  <option value="startup" className={isDark ? 'bg-slate-900' : 'bg-white'}>Startup / Tech</option>
+                  <option value="other" className={isDark ? 'bg-slate-900' : 'bg-white'}>Other</option>
                 </select>
               </div>
 
               <div className="mb-6">
-                <label className={`block text-sm text-slate-400 mb-2 ${isRTL ? 'text-right' : ''}`}>
+                <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Your Message *
                 </label>
                 <textarea
@@ -172,7 +206,11 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none transition-all resize-none ${isRTL ? 'text-right' : ''}`}
+                  className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all resize-none ${isRTL ? 'text-right' : ''} ${
+                    isDark 
+                      ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
+                      : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
+                  }`}
                   placeholder="Tell us about your project..."
                 />
               </div>
