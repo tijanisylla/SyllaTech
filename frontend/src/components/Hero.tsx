@@ -1,11 +1,70 @@
-import React from 'react';
-import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { stats } from '@/data/mock';
+import { companyInfo, stats } from '@/data/mock';
 
 const Hero: React.FC = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Particle animation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
+    const particleCount = 50;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 2 + 0.5,
+        opacity: Math.random() * 0.5 + 0.1
+      });
+    }
+
+    let animationId: number;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach((particle) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+        
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(6, 182, 212, ${particle.opacity})`;
+        ctx.fill();
+      });
+      
+      animationId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -14,159 +73,96 @@ const Hero: React.FC = () => {
     }
   };
 
-  // Animated background particles
-  const particles = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 20 + 10,
-  }));
-
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
-    >
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
+      
+      {/* Particle Canvas */}
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 tech-grid opacity-40" />
+      
+      {/* Gradient Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px]" />
 
-      {/* Animated Gradient Orbs */}
-      <motion.div
-        className="absolute top-20 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-1/4 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.4, 0.2, 0.4],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-3xl"
-        animate={{
-          rotate: [0, 360],
-        }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Floating Particles */}
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-blue-400/30"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: particle.size,
-            height: particle.size,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.3, 0.8, 0.3],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-32">
-        <div className="text-center">
+      {/* Content */}
+      <div className="relative z-10 max-w-[1280px] mx-auto px-6 py-32 w-full">
+        <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-8"
           >
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-blue-400 text-sm font-medium tracking-wide">
-              {t('hero.badge')}
-            </span>
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <span className="text-cyan-400 text-sm font-medium">Web Design & Full-Stack Development</span>
           </motion.div>
 
-          {/* Main Heading */}
+          {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            <span className="block">{t('hero.title1')}</span>
-            <span className="block mt-2">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400">
-                {t('hero.title2')}
-              </span>
+            <span className="text-white">Premium Websites &</span>
+            <br />
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Full-Stack Apps
             </span>
-            <span className="block mt-2">{t('hero.title3')}</span>
+            <br />
+            <span className="text-white">for Growing Businesses</span>
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Subheadline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-xl md:text-2xl text-blue-300 font-medium mb-4"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl md:text-2xl text-cyan-300 font-medium mb-4"
           >
-            {t('hero.subtitle')}
+            {companyInfo.subTagline}
           </motion.p>
 
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-lg text-slate-400 max-w-2xl mx-auto mb-10"
           >
-            {t('hero.description')}
+            Websites, Web Apps, Emails, and Ads — Built Fast, Built Right. 
+            We help local businesses establish a powerful online presence.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className={`flex flex-col sm:flex-row items-center justify-center gap-5 ${isRTL ? 'sm:flex-row-reverse' : ''}`}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}
           >
             <motion.button
               onClick={() => scrollToSection('#booking')}
-              className={`group flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl transition-all duration-300 shadow-xl shadow-blue-500/25 ${isRTL ? 'flex-row-reverse' : ''}`}
-              whileHover={{ scale: 1.05, boxShadow: "0 25px 50px rgba(59, 130, 246, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
+              className={`group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl transition-all ${isRTL ? 'flex-row-reverse' : ''}`}
+              whileHover={{ scale: 1.03, boxShadow: "0 12px 32px rgba(6, 182, 212, 0.4)" }}
+              whileTap={{ scale: 0.98 }}
             >
-              {t('hero.cta1')}
+              Book Free Consultation
               <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
             </motion.button>
+            
             <motion.button
               onClick={() => scrollToSection('#portfolio')}
-              className={`group flex items-center gap-3 px-8 py-4 border-2 border-slate-700 hover:border-blue-500/50 text-white font-semibold rounded-xl transition-all duration-300 bg-slate-900/50 backdrop-blur-sm ${isRTL ? 'flex-row-reverse' : ''}`}
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
-              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-cyan-500/30 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
-                <Play className={`w-4 h-4 text-blue-400 ${isRTL ? '' : 'ml-0.5'}`} />
-              </div>
-              {t('hero.cta2')}
+              View Demo Projects
             </motion.button>
           </motion.div>
         </div>
@@ -175,21 +171,19 @@ const Hero: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6"
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4"
         >
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center p-6 rounded-2xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 hover:border-blue-500/30 transition-all duration-300"
-              whileHover={{ y: -5, borderColor: "rgba(59, 130, 246, 0.5)" }}
+              className="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/30 transition-all"
+              whileHover={{ y: -4, borderColor: "rgba(6, 182, 212, 0.4)" }}
             >
-              <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
                 {stat.value}
               </div>
-              <div className="text-slate-500 text-sm uppercase tracking-wider">
-                {stat.label}
-              </div>
+              <div className="text-slate-500 text-sm">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -197,15 +191,15 @@ const Hero: React.FC = () => {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
       >
         <div className="w-6 h-10 rounded-full border-2 border-slate-700 flex justify-center pt-2">
           <motion.div
-            className="w-1.5 h-3 bg-blue-400 rounded-full"
-            animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1.5 h-2.5 bg-cyan-400 rounded-full"
+            animate={{ y: [0, 6, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
           />
         </div>
       </motion.div>
