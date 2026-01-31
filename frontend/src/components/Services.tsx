@@ -1,21 +1,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Palette, Code2, Calendar, Building2, LayoutDashboard, Shield, ArrowRight } from 'lucide-react';
+import { Code2, Globe, Mail, Image, Shield, Zap, ArrowRight } from 'lucide-react';
 import { services } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 
 const iconMap: Record<string, React.ReactNode> = {
-  palette: <Palette className="w-7 h-7" />,
-  code: <Code2 className="w-7 h-7" />,
-  calendar: <Calendar className="w-7 h-7" />,
-  building: <Building2 className="w-7 h-7" />,
-  layout: <LayoutDashboard className="w-7 h-7" />,
-  shield: <Shield className="w-7 h-7" />,
+  code: <Code2 className="w-6 h-6" />,
+  globe: <Globe className="w-6 h-6" />,
+  mail: <Mail className="w-6 h-6" />,
+  image: <Image className="w-6 h-6" />,
+  shield: <Shield className="w-6 h-6" />,
+  zap: <Zap className="w-6 h-6" />,
 };
 
 const Services: React.FC = () => {
-  const { t, isRTL } = useLanguage();
+  const { isRTL } = useLanguage();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
@@ -26,93 +26,78 @@ const Services: React.FC = () => {
     }
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
   return (
-    <section id="services" className="py-24 lg:py-32 bg-slate-900 relative overflow-hidden">
+    <section id="services" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-3xl" />
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030712] via-[#0a0f1a] to-[#030712]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[150px]" />
 
       <motion.div
         ref={ref}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10"
+        className="relative z-10 max-w-[1280px] mx-auto px-6"
       >
-        {/* Section Header */}
-        <motion.div variants={cardVariants} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-semibold tracking-wide uppercase mb-4">
-            {t('services.badge')}
+        {/* Header */}
+        <motion.div variants={itemVariants} className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-4">
+            What We Build
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {t('services.title')}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              {t('services.titleHighlight')}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Our{' '}
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Services
             </span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            {t('services.description')}
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            Everything you need to establish a powerful online presence and grow your business
           </p>
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((service) => (
             <motion.div
               key={service.id}
-              variants={cardVariants}
-              className={`group relative ${isRTL ? 'text-right' : ''}`}
-              whileHover={{ y: -8 }}
+              variants={itemVariants}
+              className={`group relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-cyan-500/40 transition-all duration-300 ${isRTL ? 'text-right' : ''}`}
+              whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(6, 182, 212, 0.1)" }}
             >
-              <div className="h-full p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/60 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/30 transition-all duration-500">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/5 group-hover:to-cyan-500/5 transition-all duration-500" />
+              {/* Glow effect on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/0 to-blue-600/0 group-hover:from-cyan-500/5 group-hover:to-blue-600/5 transition-all duration-300" />
 
-                {/* Icon */}
-                <motion.div
-                  className={`relative w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center mb-6 text-blue-400 group-hover:from-blue-500/30 group-hover:to-cyan-500/30 transition-all duration-300 ${isRTL ? 'mr-auto ml-0' : ''}`}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
-                  {iconMap[service.icon]}
-                </motion.div>
+              {/* Icon */}
+              <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center mb-5 text-cyan-400 group-hover:from-cyan-500/30 group-hover:to-blue-600/30 transition-all ${isRTL ? 'mr-0 ml-auto' : ''}`}>
+                {iconMap[service.icon]}
+              </div>
 
-                {/* Content */}
-                <div className="relative">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-slate-400 mb-6 leading-relaxed">
-                    {service.description}
-                  </p>
+              {/* Content */}
+              <div className="relative">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                  {service.description}
+                </p>
 
-                  {/* Features */}
-                  <ul className="space-y-2 mb-6">
-                    {service.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className={`flex items-center gap-2 text-slate-300 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Link */}
-                  <a
-                    href="#contact"
-                    className={`inline-flex items-center gap-2 text-blue-400 font-medium group/link hover:text-cyan-400 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
-                  >
-                    {t('services.learnMore')}
-                    <ArrowRight className={`w-4 h-4 group-hover/link:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover/link:-translate-x-1' : ''}`} />
-                  </a>
-                </div>
+                {/* Features */}
+                <ul className="space-y-2">
+                  {service.features.map((feature, idx) => (
+                    <li
+                      key={idx}
+                      className={`flex items-center gap-2 text-slate-500 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}
+                    >
+                      <span className="w-1 h-1 rounded-full bg-cyan-500" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           ))}
