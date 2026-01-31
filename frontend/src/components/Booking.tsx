@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Calendar, Clock, Video, CheckCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const Booking: React.FC = () => {
   const { isRTL } = useLanguage();
+  const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
@@ -31,8 +33,10 @@ const Booking: React.FC = () => {
   return (
     <section id="booking" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[#030712]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
+      <div className={`absolute inset-0 ${isDark ? 'bg-[#030712]' : 'bg-slate-50'}`} />
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px] ${
+        isDark ? 'bg-blue-600/5' : 'bg-blue-600/10'
+      }`} />
 
       <motion.div
         ref={ref}
@@ -43,16 +47,20 @@ const Booking: React.FC = () => {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+            isDark 
+              ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400' 
+              : 'bg-blue-50 border border-blue-200 text-blue-600'
+          }`}>
             Free Consultation
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Let's Discuss{' '}
             <span className="bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
               Your Project
             </span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-xl mx-auto">
+          <p className={`text-lg max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Book a free discovery call. We'll discuss your goals and show you how we can help.
           </p>
         </motion.div>
@@ -60,7 +68,11 @@ const Booking: React.FC = () => {
         {/* Booking Card */}
         <motion.div
           variants={itemVariants}
-          className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/[0.08]"
+          className={`p-8 md:p-10 rounded-3xl border ${
+            isDark 
+              ? 'bg-gradient-to-br from-white/[0.03] to-white/[0.01] border-white/[0.08]' 
+              : 'bg-white border-slate-200 shadow-lg'
+          }`}
         >
           <div className={`grid md:grid-cols-2 gap-10 ${isRTL ? 'md:grid-flow-dense' : ''}`}>
             {/* Left - Info */}
@@ -70,23 +82,27 @@ const Booking: React.FC = () => {
                   <Video className="w-7 h-7 text-white" />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
-                  <h3 className="text-xl font-semibold text-white">Discovery Call</h3>
-                  <p className="text-slate-400 text-sm">30-minute video consultation</p>
+                  <h3 className={`text-xl font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Discovery Call</h3>
+                  <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>30-minute video consultation</p>
                 </div>
               </div>
 
               <ul className="space-y-4 mb-8">
                 {benefits.map((benefit, idx) => (
                   <li key={idx} className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse text-right' : ''}`}>
-                    <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
-                    <span className="text-slate-300">{benefit}</span>
+                    <CheckCircle className="w-5 h-5 text-cyan-500 flex-shrink-0" />
+                    <span className={isDark ? 'text-slate-300' : 'text-slate-600'}>{benefit}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className={`p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] ${isRTL ? 'text-right' : ''}`}>
-                <h4 className="text-white font-medium mb-2">What to Expect:</h4>
-                <ul className={`text-slate-400 text-sm space-y-1 ${isRTL ? 'pr-4' : 'pl-4'}`}>
+              <div className={`p-4 rounded-xl ${isRTL ? 'text-right' : ''} ${
+                isDark 
+                  ? 'bg-white/[0.03] border border-white/[0.06]' 
+                  : 'bg-slate-50 border border-slate-200'
+              }`}>
+                <h4 className={`font-medium mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>What to Expect:</h4>
+                <ul className={`text-sm space-y-1 ${isRTL ? 'pr-4' : 'pl-4'} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   <li>• Understand your business goals</li>
                   <li>• Explore website/app options</li>
                   <li>• Get timeline & budget estimate</li>
@@ -96,10 +112,14 @@ const Booking: React.FC = () => {
 
             {/* Right - CTA */}
             <div className={`flex flex-col justify-center ${isRTL ? 'md:col-start-1' : ''}`}>
-              <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20">
-                <Calendar className="w-16 h-16 text-blue-400 mx-auto mb-6" />
-                <h4 className="text-2xl font-bold text-white mb-2">Ready to Start?</h4>
-                <p className="text-slate-400 mb-6">
+              <div className={`text-center p-8 rounded-2xl ${
+                isDark 
+                  ? 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20' 
+                  : 'bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200'
+              }`}>
+                <Calendar className="w-16 h-16 text-blue-500 mx-auto mb-6" />
+                <h4 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>Ready to Start?</h4>
+                <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Pick a time that works for you
                 </p>
                 <motion.a
@@ -113,7 +133,7 @@ const Booking: React.FC = () => {
                   <Clock className="w-5 h-5" />
                   Schedule Your Call
                 </motion.a>
-                <p className="text-slate-500 text-xs mt-4">
+                <p className={`text-xs mt-4 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
                   Or email: hello@syllatech.com
                 </p>
               </div>
