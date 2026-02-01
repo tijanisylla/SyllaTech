@@ -127,7 +127,7 @@ const Pricing: React.FC = () => {
 
                 {/* CTA */}
                 <motion.button
-                  onClick={() => scrollToSection('#booking')}
+                  onClick={openBooking}
                   className={`w-full py-3 rounded-xl font-semibold transition-all ${
                     plan.popular
                       ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/25'
