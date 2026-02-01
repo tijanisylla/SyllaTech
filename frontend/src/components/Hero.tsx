@@ -165,7 +165,7 @@ const Hero: React.FC = () => {
             className={`flex flex-col sm:flex-row items-center justify-center gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}
           >
             <motion.button
-              onClick={() => scrollToSection('#booking')}
+              onClick={openBooking}
               className={`group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl transition-all ${isRTL ? 'flex-row-reverse' : ''}`}
               whileHover={{ scale: 1.03, boxShadow: "0 12px 32px rgba(6, 182, 212, 0.4)" }}
               whileTap={{ scale: 0.98 }}
