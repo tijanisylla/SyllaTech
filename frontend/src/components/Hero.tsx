@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { companyInfo, stats } from '@/data/mock';
+import { BookingContext } from '@/App';
 
 const Hero: React.FC = () => {
   const { isRTL } = useLanguage();
   const { isDark } = useTheme();
+  const { openBooking } = useContext(BookingContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Particle animation
