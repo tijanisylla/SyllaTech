@@ -75,12 +75,10 @@ const Header: React.FC = () => {
               className="flex items-center"
             >
               <motion.img
-                src="https://customer-assets.emergentagent.com/job_sylladigital/artifacts/k3974qhm_LOGO-SYLLA_TECH.png"
+                src={isDark ? "/logo.svg" : "/logo-light.svg"}
                 alt="SyllaTech"
                 className={`transition-all duration-300 ${isScrolled ? 'h-7' : 'h-8'}`}
                 whileHover={{ scale: 1.02 }}
-                animate={{ y: [0, -2, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
             </a>
 
