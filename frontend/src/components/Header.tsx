@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Menu, X, Globe, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
+import { BookingContext } from '@/App';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t, isRTL, language, setLanguage } = useLanguage();
   const { theme, toggleTheme, isDark } = useTheme();
+  const { openBooking } = useContext(BookingContext);
 
   useEffect(() => {
     const handleScroll = () => {
