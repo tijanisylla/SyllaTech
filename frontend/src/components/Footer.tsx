@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Mail, Phone, ArrowUp, Linkedin, Twitter, Github, Heart } from 'lucide-react';
+import { MapPin, Mail, Phone, ArrowUp, Linkedin, Twitter, Github, Heart, ArrowRight, Sparkles, Check } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
+import { toast } from 'sonner';
 
 const Footer: React.FC = () => {
   const { isRTL } = useLanguage();
   const { isDark } = useTheme();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    toast.success('Subscribed!', { description: 'Welcome to the SyllaTech newsletter!' });
+    setIsSubmitting(false);
+    setIsSubscribed(true);
+    setEmail('');
   };
 
   const currentYear = new Date().getFullYear();
@@ -38,7 +53,71 @@ const Footer: React.FC = () => {
 
   return (
     <footer className={`border-t ${isDark ? 'bg-[#030712] border-white/[0.06]' : 'bg-slate-50 border-slate-200'}`}>
-      <div className="max-w-[1280px] mx-auto px-6 py-16">
+      {/* Newsletter Section */}
+      <div className={`border-b ${isDark ? 'border-white/[0.06]' : 'border-slate-200'}`}>
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
+          <div className={`flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+            <div className={`flex-1 ${isRTL ? 'text-right' : ''}`}>
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full mb-3 ${
+                isDark ? 'bg-purple-500/10 border border-purple-500/20' : 'bg-purple-50 border border-purple-200'
+              }`}>
+                <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
+                <span className={`text-xs font-medium ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>Newsletter</span>
+              </div>
+              <h3 className={`text-xl md:text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Stay <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Ahead</span> of the Curve
+              </h3>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Web tips, exclusive offers, and free resources. No spam.
+              </p>
+            </div>
+            
+            <form 
+              onSubmit={handleNewsletterSubmit}
+              className={`flex flex-col sm:flex-row gap-3 flex-1 max-w-md ${isRTL ? 'sm:flex-row-reverse' : ''}`}
+            >
+              <div className="relative flex-1">
+                <Mail className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 w-4 h-4 ${
+                  isDark ? 'text-slate-500' : 'text-slate-400'
+                }`} />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  disabled={isSubscribed}
+                  className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-3 rounded-xl text-sm border focus:outline-none transition-all ${
+                    isDark 
+                      ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
+                      : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
+                  } ${isSubscribed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                />
+              </div>
+              <motion.button
+                type="submit"
+                disabled={isSubmitting || isSubscribed || !email}
+                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all whitespace-nowrap ${isRTL ? 'flex-row-reverse' : ''} ${
+                  isSubscribed
+                    ? 'bg-green-500 text-white'
+                    : 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-purple-500/25'
+                } disabled:opacity-70`}
+                whileHover={!isSubmitting && !isSubscribed ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting && !isSubscribed ? { scale: 0.98 } : {}}
+              >
+                {isSubmitting ? (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : isSubscribed ? (
+                  <><Check className="w-4 h-4" /> Subscribed</>
+                ) : (
+                  <><span>Subscribe</span> <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} /></>
+                )}
+              </motion.button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[1280px] mx-auto px-6 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className={`lg:col-span-2 ${isRTL ? 'text-right' : ''}`}>
