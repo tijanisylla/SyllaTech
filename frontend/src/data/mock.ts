@@ -70,7 +70,8 @@ export const demoProjects = [
     description: "Modern auto repair shop website with online booking and service catalog.",
     image: "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=500&fit=crop",
     tags: ["React", "Booking System", "Responsive"],
-    color: "cyan"
+    color: "cyan",
+    demoUrl: "https://autopro-demo.syllatech.com"
   },
   {
     id: 2,
@@ -79,7 +80,8 @@ export const demoProjects = [
     description: "Elegant restaurant website with menu, reservations, and online ordering.",
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=500&fit=crop",
     tags: ["Next.js", "Online Orders", "SEO"],
-    color: "blue"
+    color: "blue",
+    demoUrl: "https://bellacucina-demo.syllatech.com"
   },
   {
     id: 3,
@@ -88,7 +90,8 @@ export const demoProjects = [
     description: "Full-stack admin dashboard with analytics, user management, and reporting.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
     tags: ["TypeScript", "Node.js", "Charts"],
-    color: "purple"
+    color: "purple",
+    demoUrl: "https://techstart-demo.syllatech.com"
   },
   {
     id: 4,
@@ -97,7 +100,8 @@ export const demoProjects = [
     description: "Dynamic fitness studio website with class scheduling, memberships, and trainer profiles.",
     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=500&fit=crop",
     tags: ["React", "Scheduling", "Payments"],
-    color: "teal"
+    color: "teal",
+    demoUrl: "https://fitlife-demo.syllatech.com"
   },
   {
     id: 5,
@@ -106,7 +110,8 @@ export const demoProjects = [
     description: "Property listing platform with advanced search, virtual tours, and agent dashboard.",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop",
     tags: ["Next.js", "Maps API", "Filtering"],
-    color: "cyan"
+    color: "cyan",
+    demoUrl: "https://urbanrealty-demo.syllatech.com"
   },
   {
     id: 6,
@@ -115,7 +120,8 @@ export const demoProjects = [
     description: "Cloud file management app with real-time collaboration and team workspaces.",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=500&fit=crop",
     tags: ["TypeScript", "Real-time", "Auth"],
-    color: "blue"
+    color: "blue",
+    demoUrl: "https://cloudsync-demo.syllatech.com"
   }
 ];
 
