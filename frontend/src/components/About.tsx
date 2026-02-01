@@ -102,8 +102,12 @@ const About: React.FC = () => {
                 : 'bg-white border-slate-200 hover:border-cyan-500/50 shadow-sm'
             }`}>
               <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
-                  <User className="w-7 h-7 text-white" />
+                <div className="w-16 h-16 rounded-xl overflow-hidden ring-2 ring-cyan-500/30">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_premium-sylla/artifacts/c3jg7ehz_Owner.jpeg" 
+                    alt={aboutData.founder.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
                   <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{aboutData.founder.name}</h3>
