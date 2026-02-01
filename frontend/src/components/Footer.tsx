@@ -43,9 +43,9 @@ const Footer: React.FC = () => {
           {/* Brand */}
           <div className={`lg:col-span-2 ${isRTL ? 'text-right' : ''}`}>
             <motion.img
-              src="https://customer-assets.emergentagent.com/job_sylladigital/artifacts/k3974qhm_LOGO-SYLLA_TECH.png"
+              src={isDark ? "/logo.svg" : "/logo-light.svg"}
               alt="SyllaTech"
-              className={`h-8 mb-5 ${isRTL ? 'mr-auto ml-0' : ''} ${!isDark ? 'brightness-0' : ''}`}
+              className={`h-8 mb-5 ${isRTL ? 'mr-auto ml-0' : ''}`}
               whileHover={{ scale: 1.02 }}
             />
             <p className={`text-sm mb-6 max-w-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
