@@ -163,10 +163,11 @@ const Header: React.FC = () => {
 
               {/* CTA Button */}
               <motion.button
-                onClick={() => scrollToSection('#booking')}
+                onClick={openBooking}
                 className="relative overflow-hidden px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold rounded-lg transition-all duration-300"
                 whileHover={{ scale: 1.02, boxShadow: "0 8px 24px rgba(6, 182, 212, 0.35)" }}
                 whileTap={{ scale: 0.98 }}
+                data-testid="book-consultation-btn"
               >
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 -translate-x-full hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700" />
