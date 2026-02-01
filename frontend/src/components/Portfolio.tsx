@@ -194,8 +194,13 @@ const Portfolio: React.FC = () => {
                       </div>
 
                       {/* Hover Overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 backdrop-blur-[2px]">
-                        <motion.button
+                      <a 
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 backdrop-blur-[2px]"
+                      >
+                        <motion.span
                           className={`flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-xl font-semibold shadow-xl ${isRTL ? 'flex-row-reverse' : ''}`}
                           initial={{ y: 20, opacity: 0 }}
                           whileHover={{ scale: 1.05 }}
@@ -203,8 +208,8 @@ const Portfolio: React.FC = () => {
                         >
                           View Demo
                           <ExternalLink className="w-4 h-4" />
-                        </motion.button>
-                      </div>
+                        </motion.span>
+                      </a>
                     </div>
 
                     {/* Content */}
