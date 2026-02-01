@@ -275,7 +275,10 @@ const Header: React.FC = () => {
                     {language === 'en' ? 'العربية' : 'English'}
                   </button>
                   <button
-                    onClick={() => scrollToSection('#booking')}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      openBooking();
+                    }}
                     className="w-full px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg"
                   >
                     Book Free Consultation
