@@ -12,7 +12,6 @@ import TechStack from "@/components/TechStack";
 import Portfolio from "@/components/Portfolio";
 import Pricing from "@/components/Pricing";
 import About from "@/components/About";
-import Newsletter from "@/components/Newsletter";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
@@ -46,7 +45,6 @@ const AppContent: React.FC = () => {
           <Portfolio />
           <Pricing />
           <About />
-          <Newsletter />
           <Contact />
         </main>
         <Footer />
