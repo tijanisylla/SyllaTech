@@ -579,7 +579,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
