@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Check, Star, ArrowRight } from 'lucide-react';
 import { pricingPlans, monthlyPlan } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
+import { BookingContext } from '@/App';
 
 const Pricing: React.FC = () => {
   const { isRTL } = useLanguage();
   const { isDark } = useTheme();
+  const { openBooking } = useContext(BookingContext);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
