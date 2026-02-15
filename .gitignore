@@ -3,7 +3,9 @@
 # IDE and editors
 .idea/
 .vscode/
-
+# Environment files (comprehensive coverage)
+.env
+.env*
 # Dependencies
 node_modules/
 /node_modules
