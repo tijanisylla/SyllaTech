@@ -1,5 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+.cursor/
 # IDE and editors
 .idea/
 .vscode/
@@ -83,3 +83,4 @@ frontend/node_modules/.cache/default-development/3
 frontend/node_modules/.cache/default-development/0.pack
 frontend/node_modules/.cache/default-development/19
 2.pack
+frontend/node_modules/.cache/default-development/23.pack
