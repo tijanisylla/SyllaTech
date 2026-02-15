@@ -1,17 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { demoProjects } from '@/data/mock';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 
+function useVisibleSlides() {
+  const [visible, setVisible] = useState(3);
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth >= 1024) setVisible(3);
+      else if (window.innerWidth >= 768) setVisible(2);
+      else setVisible(1);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return visible;
+}
+
 const Portfolio: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const visibleSlides = useVisibleSlides();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const containerVariants = {
@@ -38,38 +54,33 @@ const Portfolio: React.FC = () => {
   };
 
   const totalSlides = demoProjects.length;
-  const visibleSlides = 3; // Number of slides visible at once on desktop
+  const maxIndex = Math.max(0, totalSlides - visibleSlides);
 
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % totalSlides);
+    setActiveIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    setActiveIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   const goToSlide = (index: number) => {
-    setActiveIndex(index);
+    setActiveIndex(Math.min(index, maxIndex));
   };
 
-  // Auto-play carousel
+  // Translate by one item per step: each item = 100/totalSlides % of content width
+  const translateX = isRTL
+    ? `${activeIndex * (100 / totalSlides)}%`
+    : `-${activeIndex * (100 / totalSlides)}%`;
+
+  // Auto-play carousel (pause on hover)
   useEffect(() => {
-    if (isDragging) return;
+    if (isHovering) return;
     const interval = setInterval(() => {
-      nextSlide();
+      setActiveIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }, 5000);
     return () => clearInterval(interval);
-  }, [isDragging, activeIndex]);
-
-  // Get visible projects for carousel (infinite loop effect)
-  const getVisibleProjects = () => {
-    const projects = [];
-    for (let i = 0; i < totalSlides; i++) {
-      const index = (activeIndex + i) % totalSlides;
-      projects.push({ ...demoProjects[index], displayIndex: i });
-    }
-    return projects;
-  };
+  }, [isHovering, maxIndex]);
 
   return (
     <section id="portfolio" className="py-24 relative overflow-hidden">
@@ -97,23 +108,23 @@ const Portfolio: React.FC = () => {
               ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400' 
               : 'bg-blue-50 border border-blue-200 text-blue-600'
           }`}>
-            Demo Projects
+            {t('portfolio.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Sample{' '}
+            {t('portfolio.title')}{' '}
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Work
+              {t('portfolio.titleHighlight')}
             </span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            Showcasing what we can build for your business. Each project is customized to your brand.
+            {t('portfolio.description')}
           </p>
         </motion.div>
 
         {/* Carousel Container */}
         <motion.div variants={itemVariants} className="relative">
           {/* Navigation Buttons */}
-          <div className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-20">
+          <div className={`absolute top-1/2 -translate-y-1/2 z-20 ${isRTL ? '-right-4 md:-right-6' : '-left-4 md:-left-6'}`}>
             <motion.button
               onClick={prevSlide}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
@@ -128,7 +139,7 @@ const Portfolio: React.FC = () => {
             </motion.button>
           </div>
           
-          <div className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-20">
+          <div className={`absolute top-1/2 -translate-y-1/2 z-20 ${isRTL ? '-left-4 md:-left-6' : '-right-4 md:-right-6'}`}>
             <motion.button
               onClick={nextSlide}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
@@ -147,12 +158,12 @@ const Portfolio: React.FC = () => {
           <div 
             ref={carouselRef}
             className="overflow-hidden mx-8"
-            onMouseEnter={() => setIsDragging(true)}
-            onMouseLeave={() => setIsDragging(false)}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
           >
             <motion.div 
               className="flex gap-6"
-              animate={{ x: `-${activeIndex * (100 / visibleSlides)}%` }}
+              animate={{ x: translateX }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               {demoProjects.map((project, index) => (
@@ -206,7 +217,7 @@ const Portfolio: React.FC = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          View Demo
+                          {t('portfolio.viewDemo')}
                           <ExternalLink className="w-4 h-4" />
                         </motion.span>
                       </a>
@@ -249,10 +260,11 @@ const Portfolio: React.FC = () => {
 
           {/* Dots Indicator */}
           <div className="flex justify-center items-center gap-2 mt-8">
-            {demoProjects.map((_, index) => (
+            {Array.from({ length: maxIndex + 1 }, (_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
                 className={`transition-all duration-300 rounded-full ${
                   activeIndex === index 
                     ? 'w-8 h-2 bg-gradient-to-r from-cyan-500 to-blue-500' 

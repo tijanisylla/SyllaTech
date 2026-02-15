@@ -113,3 +113,23 @@ code {
         border-bottom-color: inherit;
     }
 }
+
+/* Admin HTML code editor - dark theme */
+.admin-html-editor .w-tc-editor {
+  background-color: #020617 !important;
+  --color-canvas-subtle: #020617;
+  --color-fg-default: #e2e8f0;
+  --color-prettylights-syntax-comment: #64748b;
+  --color-prettylights-syntax-entity-tag: #34d399;
+  --color-prettylights-syntax-entity: #a78bfa;
+  --color-prettylights-syntax-constant: #38bdf8;
+  --color-prettylights-syntax-string: #fbbf24;
+  --color-prettylights-syntax-keyword: #f87171;
+}
+.admin-html-editor .w-tc-editor-preview,
+.admin-html-editor .w-tc-editor-textarea,
+.admin-html-editor .w-tc-editor pre,
+.admin-html-editor .w-tc-editor code {
+  background-color: #020617 !important;
+  color: #e2e8f0;
+}

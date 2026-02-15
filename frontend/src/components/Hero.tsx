@@ -7,7 +7,7 @@ import { companyInfo, stats } from '@/data/mock';
 import { BookingContext } from '@/App';
 
 const Hero: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const { openBooking } = useContext(BookingContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -116,7 +116,7 @@ const Hero: React.FC = () => {
           >
             <Sparkles className="w-4 h-4 text-cyan-500" />
             <span className={`text-sm font-medium ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
-              Web Design & Full-Stack Development
+              {t('hero.badge')}
             </span>
           </motion.div>
 
@@ -127,13 +127,13 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            <span className={isDark ? 'text-white' : 'text-slate-900'}>Premium Websites &</span>
+            <span className={isDark ? 'text-white' : 'text-slate-900'}>{t('hero.title1')}</span>
             <br />
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Full-Stack Apps
+              {t('hero.title2')}
             </span>
             <br />
-            <span className={isDark ? 'text-white' : 'text-slate-900'}>for Growing Businesses</span>
+            <span className={isDark ? 'text-white' : 'text-slate-900'}>{t('hero.title3')}</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -143,7 +143,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className={`text-xl md:text-2xl font-medium mb-4 ${isDark ? 'text-cyan-300' : 'text-cyan-600'}`}
           >
-            {companyInfo.subTagline}
+            {t('hero.subtitle')}
           </motion.p>
 
           {/* Description */}
@@ -153,8 +153,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className={`text-lg max-w-2xl mx-auto mb-10 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}
           >
-            Websites, Web Apps, Emails, and Ads — Built Fast, Built Right. 
-            We help local businesses establish a powerful online presence.
+            {t('hero.description')}
           </motion.p>
 
           {/* CTAs */}
@@ -170,7 +169,7 @@ const Hero: React.FC = () => {
               whileHover={{ scale: 1.03, boxShadow: "0 12px 32px rgba(6, 182, 212, 0.4)" }}
               whileTap={{ scale: 0.98 }}
             >
-              Book Free Consultation
+              {t('hero.cta1')}
               <ArrowRight className={`w-5 h-5 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
             </motion.button>
             
@@ -184,7 +183,7 @@ const Hero: React.FC = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              View Demo Projects
+              {t('hero.cta2')}
             </motion.button>
           </motion.div>
         </div>
@@ -209,7 +208,7 @@ const Hero: React.FC = () => {
               <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">
                 {stat.value}
               </div>
-              <div className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>{stat.label}</div>
+              <div className={`text-sm ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>{t(stat.label === 'Demo Projects' ? 'stats.demoProjects' : stat.label === 'Languages' ? 'stats.languages' : stat.label === 'Dedication' ? 'stats.dedication' : 'stats.support')}</div>
             </motion.div>
           ))}
         </motion.div>

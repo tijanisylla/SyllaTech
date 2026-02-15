@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Mail, ArrowRight, Sparkles, Check } from 'lucide-react';
+import { validateNewsletter } from '@/lib/validation';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { toast } from 'sonner';
 
 const Newsletter: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -29,26 +31,42 @@ const Newsletter: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-
+    const errs = validateNewsletter(email);
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast.success('Subscribed!', { 
-      description: 'Welcome to the SyllaTech newsletter!' 
-    });
-    
-    setIsSubmitting(false);
-    setIsSubscribed(true);
-    setEmail('');
+    const apiUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+
+    try {
+      const res = await fetch(`${apiUrl}/api/submissions/newsletter`, {
+        method: 'POST',
+        body: JSON.stringify({ email: email.trim() }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const msg = typeof data.detail === 'string' ? data.detail : 'Submission failed';
+        throw new Error(msg);
+      }
+      toast.success(t('toast.subscribed'), {
+        description: t('toast.subscribedDesc'),
+      });
+      setIsSubscribed(true);
+      setEmail('');
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : t('toast.errorGeneric');
+      toast.error(msg.includes('already subscribed') ? t('toast.alreadySubscribed') : msg, {
+        description: msg.includes('already subscribed') ? '' : t('toast.errorRetry'),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const benefits = [
-    'Web development tips & trends',
-    'Exclusive early-bird discounts',
-    'Free resources & templates'
-  ];
+  const benefits = [t('newsletter.benefit1'), t('newsletter.benefit2'), t('newsletter.benefit3')];
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -97,7 +115,7 @@ const Newsletter: React.FC = () => {
             >
               <Sparkles className={`w-4 h-4 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
               <span className={`text-sm font-medium ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>
-                Newsletter
+                {t('newsletter.badge')}
               </span>
             </motion.div>
 
@@ -108,11 +126,11 @@ const Newsletter: React.FC = () => {
                 isDark ? 'text-white' : 'text-slate-900'
               }`}
             >
-              Stay{' '}
+              {t('newsletter.title')}{' '}
               <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Ahead
+                {t('newsletter.titleHighlight')}
               </span>{' '}
-              of the Curve
+              {t('newsletter.titleRest')}
             </motion.h2>
 
             <motion.p
@@ -121,7 +139,7 @@ const Newsletter: React.FC = () => {
                 isDark ? 'text-slate-400' : 'text-slate-600'
               }`}
             >
-              Join our newsletter for web development insights, exclusive offers, and free resources delivered to your inbox.
+              {t('newsletter.description')}
             </motion.p>
 
             {/* Benefits */}
@@ -155,16 +173,23 @@ const Newsletter: React.FC = () => {
                 }`} />
                 <input
                   type="email"
+                  name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
+                  }}
+                  placeholder={t('newsletter.placeholder')}
                   disabled={isSubscribed}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'newsletter-email-error' : undefined}
                   className={`w-full ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} py-4 rounded-xl border focus:outline-none transition-all ${
                     isDark 
                       ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
                       : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                  } ${isSubscribed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  } ${isSubscribed ? 'opacity-50 cursor-not-allowed' : ''} ${errors.email ? 'border-red-500/60' : ''}`}
                 />
+                {errors.email && <p id="newsletter-email-error" className="text-red-400 text-sm mt-1">{t(errors.email)}</p>}
               </div>
               
               <motion.button
@@ -181,16 +206,16 @@ const Newsletter: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Subscribing...
+                    {t('newsletter.subscribing')}
                   </>
                 ) : isSubscribed ? (
                   <>
                     <Check className="w-5 h-5" />
-                    Subscribed!
+                    {t('newsletter.subscribed')}
                   </>
                 ) : (
                   <>
-                    Subscribe
+                    {t('newsletter.subscribe')}
                     <ArrowRight className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
                   </>
                 )}
@@ -202,7 +227,7 @@ const Newsletter: React.FC = () => {
               variants={itemVariants}
               className={`text-xs mt-4 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}
             >
-              No spam, ever. Unsubscribe anytime.
+              {t('newsletter.privacy')}
             </motion.p>
           </div>
         </motion.div>

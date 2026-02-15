@@ -6,7 +6,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 
 const TechStack: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -24,10 +24,10 @@ const TechStack: React.FC = () => {
   };
 
   const categories = [
-    { key: 'frontend', label: 'Frontend', color: 'cyan' },
-    { key: 'backend', label: 'Backend', color: 'blue' },
-    { key: 'tools', label: 'Tools', color: 'purple' },
-    { key: 'other', label: 'Expertise', color: 'teal' },
+    { key: 'frontend', label: t('techStack.frontend'), color: 'cyan' },
+    { key: 'backend', label: t('techStack.backend'), color: 'blue' },
+    { key: 'tools', label: t('techStack.tools'), color: 'purple' },
+    { key: 'other', label: t('techStack.expertise'), color: 'teal' },
   ];
 
   const getColorClasses = (color: string) => {
@@ -65,16 +65,16 @@ const TechStack: React.FC = () => {
               ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
               : 'bg-purple-50 border border-purple-200 text-purple-600'
           }`}>
-            Tech Stack
+            {t('techStack.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Tools & Technologies{' '}
+            {t('techStack.title')}{' '}
             <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-              I Use
+              {t('techStack.titleHighlight')}
             </span>
           </h2>
           <p className={`max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            Modern, battle-tested technologies for building fast, scalable, and maintainable applications
+            {t('techStack.description')}
           </p>
         </motion.div>
 

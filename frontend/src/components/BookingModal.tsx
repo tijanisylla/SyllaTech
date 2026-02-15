@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Video, CheckCircle, ChevronLeft, ChevronRight, User, Mail, Phone, Building2, MessageSquare, ArrowRight, Check } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { toast } from 'sonner';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+
+const formatDateIso = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -25,6 +34,22 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [takenSlots, setTakenSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [bookingConfig, setBookingConfig] = useState<{
+    timeSlots: string[];
+    blockedDates: string[];
+    availableWeekdays: number[];
+  } | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetch(`${API_URL}/api/booking/config`)
+        .then((res) => res.json())
+        .then((data) => setBookingConfig(data))
+        .catch(() => setBookingConfig(null));
+    }
+  }, [isOpen]);
 
   // Reset state when modal closes
   const handleClose = () => {
@@ -54,7 +79,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return date < today || date.getDay() === 0 || date.getDay() === 6;
+    if (date < today) return true;
+    const dateIso = formatDateIso(date);
+    if (bookingConfig?.blockedDates?.includes(dateIso)) return true;
+    const weekdays = bookingConfig?.availableWeekdays ?? [1, 2, 3, 4, 5];
+    return !weekdays.includes(date.getDay());
   };
 
   const formatMonth = (date: Date) => {
@@ -73,10 +102,25 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     if (!isDateDisabled(day)) {
       setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
       setSelectedTime(null);
+      setTakenSlots([]);
     }
   };
 
-  const timeSlots = [
+  useEffect(() => {
+    if (!selectedDate) {
+      setTakenSlots([]);
+      return;
+    }
+    const dateIso = formatDateIso(selectedDate);
+    setLoadingSlots(true);
+    fetch(`${API_URL}/api/availability?date=${dateIso}`)
+      .then((res) => res.json())
+      .then((data) => setTakenSlots(data.taken || []))
+      .catch(() => setTakenSlots([]))
+      .finally(() => setLoadingSlots(false));
+  }, [selectedDate]);
+
+  const timeSlots = bookingConfig?.timeSlots ?? [
     '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM',
     '11:00 AM', '11:30 AM', '02:00 PM', '02:30 PM',
     '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM'
@@ -88,12 +132,43 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    toast.success('Booking Confirmed!', { 
-      description: `Your consultation is scheduled for ${selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${selectedTime}` 
-    });
-    setIsSubmitting(false);
-    handleClose();
+    const payload = {
+      date: selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }),
+      date_iso: selectedDate ? formatDateIso(selectedDate) : undefined,
+      time: selectedTime,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      business: formData.business,
+      message: formData.message,
+    };
+
+    try {
+      const res = await fetch(`${API_URL}/api/submissions/bookings`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (res.status === 409) {
+        toast.error('Slot no longer available', { description: 'Someone just booked this time. Please pick another.' });
+        setTakenSlots((prev) => (selectedTime ? [...prev, selectedTime] : prev));
+        setSelectedTime(null);
+        setStep(1);
+        setIsSubmitting(false);
+        return;
+      }
+      if (!res.ok) throw new Error('Submission failed');
+      toast.success('Booking Confirmed!', {
+        description: `Your consultation is scheduled for ${selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${selectedTime}`,
+      });
+      handleClose();
+    } catch {
+      toast.error('Booking failed', {
+        description: 'Please try again or contact us directly.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const canProceedToStep2 = selectedDate && selectedTime;
@@ -127,16 +202,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="w-full max-w-4xl max-h-[90vh] overflow-hidden"
+              className="w-full max-w-4xl h-[90vh] max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-            <div className={`h-full rounded-2xl border overflow-hidden flex flex-col ${
+            <div className={`rounded-2xl border flex flex-col flex-1 min-h-0 overflow-hidden ${
               isDark 
                 ? 'bg-[#0a0f1a] border-white/10' 
                 : 'bg-white border-slate-200 shadow-2xl'
             }`}>
               {/* Header */}
-              <div className={`flex items-center justify-between px-6 py-4 border-b ${
+              <div className={`flex shrink-0 items-center justify-between px-6 py-4 border-b ${
                 isDark ? 'border-white/10' : 'border-slate-200'
               }`}>
                 <div className="flex items-center gap-4">
@@ -163,7 +238,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
               </div>
 
               {/* Progress Steps */}
-              <div className={`flex justify-center py-4 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
+              <div className={`flex shrink-0 justify-center py-4 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
                 <div className="flex items-center gap-2">
                   {[1, 2, 3].map((s) => (
                     <React.Fragment key={s}>
@@ -191,8 +266,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto">
-                <div className="grid md:grid-cols-5 h-full">
+              <div className="flex-1 min-h-0 overflow-y-auto">
+                <div className="grid md:grid-cols-5">
                   {/* Left Sidebar */}
                   <div className={`md:col-span-2 p-6 ${
                     isDark 
@@ -324,24 +399,41 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                               <p className={`text-xs font-medium mb-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                                 Available Times
+                                {loadingSlots && <span className="ml-2 text-slate-500">(checking...)</span>}
                               </p>
-                              <div className="grid grid-cols-4 gap-1.5">
-                                {timeSlots.map(time => (
-                                  <button
-                                    key={time}
-                                    onClick={() => setSelectedTime(time)}
-                                    className={`py-2 px-2 rounded-lg text-xs font-medium transition-all ${
-                                      selectedTime === time
-                                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-                                        : isDark
-                                          ? 'bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:border-cyan-500/50'
-                                          : 'bg-slate-100 border border-slate-200 text-slate-700 hover:border-cyan-500'
-                                    }`}
-                                  >
-                                    {time}
-                                  </button>
-                                ))}
-                              </div>
+                              {takenSlots.length === timeSlots.length && !loadingSlots ? (
+                                <p className={`py-4 text-sm ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
+                                  No slots available for this date. Please pick another day.
+                                </p>
+                              ) : (
+                                <div className="grid grid-cols-4 gap-1.5">
+                                  {timeSlots.map((time) => {
+                                    const isTaken = takenSlots.includes(time);
+                                    return (
+                                      <button
+                                        key={time}
+                                        type="button"
+                                        onClick={() => !isTaken && setSelectedTime(time)}
+                                        disabled={isTaken}
+                                        className={`py-2 px-2 rounded-lg text-xs font-medium transition-all ${
+                                          isTaken
+                                            ? isDark
+                                              ? 'bg-white/[0.02] border border-white/[0.06] text-slate-600 cursor-not-allowed line-through'
+                                              : 'bg-slate-50 border border-slate-100 text-slate-400 cursor-not-allowed line-through'
+                                            : selectedTime === time
+                                              ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+                                              : isDark
+                                                ? 'bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:border-cyan-500/50'
+                                                : 'bg-slate-100 border border-slate-200 text-slate-700 hover:border-cyan-500'
+                                        }`}
+                                      >
+                                        {time}
+                                        {isTaken && ' (Booked)'}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              )}
                             </motion.div>
                           )}
 

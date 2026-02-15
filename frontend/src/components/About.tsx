@@ -7,7 +7,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 
 const About: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -50,12 +50,12 @@ const About: React.FC = () => {
               ? 'bg-teal-500/10 border border-teal-500/20 text-teal-400' 
               : 'bg-teal-50 border border-teal-200 text-teal-600'
           }`}>
-            About SyllaTech
+            {t('about.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Building Digital{' '}
+            {t('about.title')}{' '}
             <span className="bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
-              Excellence
+              {t('about.titleHighlight')}
             </span>
           </h2>
         </motion.div>
@@ -71,7 +71,7 @@ const About: React.FC = () => {
               <p className={`text-lg leading-relaxed mb-8 ${isRTL ? 'text-right' : ''} ${
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}>
-                {aboutData.story}
+                {t('about.story')}
               </p>
 
               {/* Location Info */}
@@ -87,7 +87,7 @@ const About: React.FC = () => {
                 <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>→</span>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className={`text-sm ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>Soon: {companyInfo.expandingTo}</span>
+                  <span className={`text-sm ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>{t('about.soon')}: {companyInfo.expandingTo}</span>
                 </div>
               </div>
             </div>
@@ -104,18 +104,18 @@ const About: React.FC = () => {
               <div className={`flex items-center gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div className="w-16 h-16 rounded-xl overflow-hidden ring-2 ring-cyan-500/30">
                   <img 
-                    src="https://customer-assets.emergentagent.com/job_premium-sylla/artifacts/c3jg7ehz_Owner.jpeg" 
+                    src="https://placehold.co/128x128/0ea5e9/white?text=Photo" 
                     alt={aboutData.founder.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className={isRTL ? 'text-right' : ''}>
                   <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{aboutData.founder.name}</h3>
-                  <p className={isDark ? 'text-cyan-400' : 'text-cyan-600'} style={{ fontSize: '0.875rem' }}>{aboutData.founder.role}</p>
+                  <p className={isDark ? 'text-cyan-400' : 'text-cyan-600'} style={{ fontSize: '0.875rem' }}>{t('about.founderRole')}</p>
                 </div>
               </div>
               <p className={`text-sm ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                {aboutData.founder.bio}
+                {t('about.founderBio')}
               </p>
             </div>
 
@@ -131,10 +131,10 @@ const About: React.FC = () => {
                 }`}>
                   <Globe className="w-5 h-5 text-teal-500" />
                 </div>
-                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Multilingual Advantage</h3>
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('about.languages')}</h3>
               </div>
               <p className={`text-sm mb-4 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                We communicate with clients worldwide in their language.
+                {t('about.languagesDesc')}
               </p>
               <div className={`flex flex-wrap gap-2 ${isRTL ? 'justify-end' : ''}`}>
                 {aboutData.founder.languages.map((lang, idx) => (
@@ -160,10 +160,10 @@ const About: React.FC = () => {
             }`}>
               <div className={`flex items-center gap-3 mb-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <MessageSquare className="w-5 h-5 text-purple-500" />
-                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>Be an Early Partner</h3>
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('about.earlyPartner')}</h3>
               </div>
               <p className={`text-sm mb-4 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                New agency building our client base. Get founding partner pricing and priority support.
+                {t('about.earlyPartnerDesc')}
               </p>
               <motion.a
                 href="#booking"
@@ -172,7 +172,7 @@ const About: React.FC = () => {
                 }`}
                 whileHover={{ x: isRTL ? -4 : 4 }}
               >
-                Claim Your Spot
+                {t('about.claimSpot')}
                 <span className={isRTL ? 'rotate-180' : ''}>→</span>
               </motion.a>
             </div>

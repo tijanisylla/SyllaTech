@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Send, MapPin, Mail, Phone } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
+import { validateContact } from '@/lib/validation';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { toast } from 'sonner';
 
 const Contact: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [formData, setFormData] = useState({
@@ -18,18 +19,42 @@ const Contact: React.FC = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name } = e.target;
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const errs = validateContact(formData);
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    toast.success('Message sent!', { description: "We'll respond within 24 hours." });
-    setFormData({ name: '', email: '', business: '', message: '' });
-    setIsSubmitting(false);
+    const apiUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+
+    try {
+      const res = await fetch(`${apiUrl}/api/submissions/contact`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) throw new Error('Submission failed');
+      toast.success(t('toast.messageSent'), { description: t('toast.messageSentDesc') });
+      setFormData({ name: '', email: '', business: '', message: '' });
+      setErrors({});
+    } catch {
+      toast.error(t('toast.errorGeneric'), {
+        description: t('toast.errorRetry'),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -43,9 +68,9 @@ const Contact: React.FC = () => {
   };
 
   const contactInfo = [
-    { icon: <MapPin className="w-5 h-5" />, label: 'Location', value: companyInfo.location, sub: `Expanding to ${companyInfo.expandingTo}` },
-    { icon: <Mail className="w-5 h-5" />, label: 'Email', value: companyInfo.email, sub: null },
-    { icon: <Phone className="w-5 h-5" />, label: 'Phone', value: companyInfo.phone, sub: null },
+    { icon: <MapPin className="w-5 h-5" />, label: t('contact.location'), value: companyInfo.location, sub: `${t('contact.expanding')} ${companyInfo.expandingTo}` },
+    { icon: <Mail className="w-5 h-5" />, label: t('contact.email'), value: companyInfo.email, sub: null },
+    { icon: <Phone className="w-5 h-5" />, label: t('contact.phone'), value: companyInfo.phone, sub: null },
   ];
 
   return (
@@ -71,15 +96,15 @@ const Contact: React.FC = () => {
               ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' 
               : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
           }`}>
-            Get In Touch
+            {t('contact.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Start Your{' '}
+            {t('contact.title')}{' '}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Project
+              {t('contact.titleHighlight')}
             </span>
           </h2>
-          <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Ready to take your business online? Let's talk.</p>
+          <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{t('contact.description')}</p>
         </motion.div>
 
         <div className={`grid lg:grid-cols-5 gap-10 ${isRTL ? 'lg:grid-flow-dense' : ''}`}>
@@ -136,45 +161,49 @@ const Contact: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
                   <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    Your Name *
+                    {t('contact.form.name')}
                   </label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
                     className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${isRTL ? 'text-right' : ''} ${
                       isDark 
                         ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
                         : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                    }`}
-                    placeholder="John Doe"
+                    } ${errors.name ? 'border-red-500/60' : ''}`}
+                    placeholder={t('contact.form.placeholderName')}
                   />
+                  {errors.name && <p id="name-error" className="text-red-400 text-sm mt-1">{t(errors.name)}</p>}
                 </div>
                 <div>
                   <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    Email *
+                    {t('contact.form.email')}
                   </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
                     className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
                       isDark 
                         ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
                         : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                    }`}
-                    placeholder="john@example.com"
+                    } ${errors.email ? 'border-red-500/60' : ''}`}
+                    placeholder={t('contact.form.placeholderEmail')}
                   />
+                  {errors.email && <p id="email-error" className="text-red-400 text-sm mt-1">{t(errors.email)}</p>}
                 </div>
               </div>
 
               <div className="mb-5">
                 <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Business Type
+                  {t('contact.form.business')}
                 </label>
                 <select
                   name="business"
@@ -186,33 +215,35 @@ const Contact: React.FC = () => {
                       : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-cyan-500'
                   }`}
                 >
-                  <option value="" className={isDark ? 'bg-slate-900' : 'bg-white'}>Select your business type</option>
-                  <option value="auto" className={isDark ? 'bg-slate-900' : 'bg-white'}>Auto Repair / Car Wash</option>
-                  <option value="restaurant" className={isDark ? 'bg-slate-900' : 'bg-white'}>Restaurant / Cafe</option>
-                  <option value="retail" className={isDark ? 'bg-slate-900' : 'bg-white'}>Retail / E-commerce</option>
-                  <option value="service" className={isDark ? 'bg-slate-900' : 'bg-white'}>Service Business</option>
-                  <option value="startup" className={isDark ? 'bg-slate-900' : 'bg-white'}>Startup / Tech</option>
-                  <option value="other" className={isDark ? 'bg-slate-900' : 'bg-white'}>Other</option>
+                  <option value="" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.selectBusiness')}</option>
+                  <option value="auto" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessAuto')}</option>
+                  <option value="restaurant" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessRestaurant')}</option>
+                  <option value="retail" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessRetail')}</option>
+                  <option value="service" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessService')}</option>
+                  <option value="startup" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessStartup')}</option>
+                  <option value="other" className={isDark ? 'bg-slate-900' : 'bg-white'}>{t('contact.form.businessOther')}</option>
                 </select>
               </div>
 
               <div className="mb-6">
                 <label className={`block text-sm mb-2 ${isRTL ? 'text-right' : ''} ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Your Message *
+                  {t('contact.form.message')}
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  required
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? 'message-error' : undefined}
                   rows={4}
                   className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all resize-none ${isRTL ? 'text-right' : ''} ${
                     isDark 
                       ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
                       : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                  }`}
-                  placeholder="Tell us about your project..."
+                  } ${errors.message ? 'border-red-500/60' : ''}`}
+                  placeholder={t('contact.form.placeholderMessage')}
                 />
+                {errors.message && <p id="message-error" className="text-red-400 text-sm mt-1">{t(errors.message)}</p>}
               </div>
 
               <motion.button
@@ -225,11 +256,11 @@ const Contact: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Sending...
+                    {t('contact.form.sending')}
                   </>
                 ) : (
                   <>
-                    Send Message
+                    {t('contact.form.submit')}
                     <Send className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
                   </>
                 )}

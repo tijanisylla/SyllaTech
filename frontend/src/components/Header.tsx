@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     { href: '#home', label: t('nav.home') },
     { href: '#services', label: t('nav.services') },
     { href: '#portfolio', label: t('nav.portfolio') },
-    { href: '#pricing', label: 'Pricing' },
+    { href: '#pricing', label: t('nav.pricing') },
     { href: '#about', label: t('nav.about') },
     { href: '#contact', label: t('nav.contact') },
   ];
@@ -171,7 +171,7 @@ const Header: React.FC = () => {
               >
                 {/* Shimmer effect */}
                 <span className="absolute inset-0 -translate-x-full hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700" />
-                <span className="relative">Book Free Consultation</span>
+                <span className="relative">{t('nav.bookCall')}</span>
               </motion.button>
             </div>
 
@@ -261,7 +261,7 @@ const Header: React.FC = () => {
                     }`}
                   >
                     {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                    {isDark ? t('theme.lightMode') : t('theme.darkMode')}
                   </button>
                   <button
                     onClick={toggleLanguage}
@@ -281,7 +281,7 @@ const Header: React.FC = () => {
                     }}
                     className="w-full px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg"
                   >
-                    Book Free Consultation
+                    {t('nav.bookCall')}
                   </button>
                 </div>
               </div>

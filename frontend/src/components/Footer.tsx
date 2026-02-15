@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, Mail, Phone, ArrowUp, Linkedin, Twitter, Github, Heart, ArrowRight, Sparkles, Check } from 'lucide-react';
 import { companyInfo } from '@/data/mock';
+import { validateNewsletter } from '@/lib/validation';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
 import { toast } from 'sonner';
 
 const Footer: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,29 +22,55 @@ const Footer: React.FC = () => {
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    const errs = validateNewsletter(email);
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    toast.success('Subscribed!', { description: 'Welcome to the SyllaTech newsletter!' });
-    setIsSubmitting(false);
-    setIsSubscribed(true);
-    setEmail('');
+    const apiUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+    try {
+      const res = await fetch(`${apiUrl}/api/submissions/newsletter`, {
+        method: 'POST',
+        body: JSON.stringify({ email: email.trim() }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        const msg = typeof err.detail === 'string' ? err.detail : 'Submission failed';
+        throw new Error(msg);
+      }
+      toast.success(t('toast.subscribed'), { description: t('toast.subscribedDesc') });
+      setIsSubscribed(true);
+      setEmail('');
+      setErrors({});
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : t('toast.errorGeneric');
+      toast.error(msg.includes('already subscribed') ? t('toast.alreadySubscribed') : msg, {
+        description: msg.includes('already subscribed') ? '' : t('toast.errorRetry'),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const currentYear = new Date().getFullYear();
 
   const links = {
     services: [
-      { label: 'Web Apps', href: '#services' },
-      { label: 'Business Sites', href: '#services' },
-      { label: 'HTML Emails', href: '#services' },
-      { label: 'Maintenance', href: '#services' },
+      { label: t('footer.webApps'), href: '#services' },
+      { label: t('footer.businessSites'), href: '#services' },
+      { label: t('footer.htmlEmails'), href: '#services' },
+      { label: t('footer.maintenance'), href: '#services' },
     ],
     company: [
-      { label: 'About', href: '#about' },
-      { label: 'Portfolio', href: '#portfolio' },
-      { label: 'Pricing', href: '#pricing' },
-      { label: 'Contact', href: '#contact' },
+      { label: t('footer.about'), href: '#about' },
+      { label: t('footer.portfolio'), href: '#portfolio' },
+      { label: t('footer.pricing'), href: '#pricing' },
+      { label: t('footer.contact'), href: '#contact' },
+      { label: t('footer.privacyPolicy'), href: '/privacy-policy' },
+      { label: t('footer.cookiePolicy'), href: '/cookies' },
     ],
   };
 
@@ -62,13 +91,13 @@ const Footer: React.FC = () => {
                 isDark ? 'bg-purple-500/10 border border-purple-500/20' : 'bg-purple-50 border border-purple-200'
               }`}>
                 <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
-                <span className={`text-xs font-medium ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>Newsletter</span>
+                <span className={`text-xs font-medium ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>{t('newsletter.badge')}</span>
               </div>
               <h3 className={`text-xl md:text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Stay <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Ahead</span> of the Curve
+                {t('newsletter.footerTitle')} <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">{t('newsletter.footerTitleHighlight')}</span> {t('newsletter.footerTitleRest')}
               </h3>
               <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Web tips, exclusive offers, and free resources. No spam.
+                {t('newsletter.footerDesc')}
               </p>
             </div>
             
@@ -83,15 +112,21 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
+                  }}
+                  placeholder={t('newsletter.placeholder')}
                   disabled={isSubscribed}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'footer-email-error' : undefined}
                   className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-3 rounded-xl text-sm border focus:outline-none transition-all ${
                     isDark 
                       ? 'bg-white/[0.03] border-white/[0.08] text-white placeholder-slate-500 focus:border-cyan-500/50' 
                       : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                  } ${isSubscribed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  } ${isSubscribed ? 'opacity-50 cursor-not-allowed' : ''} ${errors.email ? 'border-red-500/60' : ''}`}
                 />
+                {errors.email && <p id="footer-email-error" className="text-red-400 text-sm mt-1">{t(errors.email)}</p>}
               </div>
               <motion.button
                 type="submit"
@@ -109,7 +144,7 @@ const Footer: React.FC = () => {
                 ) : isSubscribed ? (
                   <><Check className="w-4 h-4" /> Subscribed</>
                 ) : (
-                  <><span>Subscribe</span> <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} /></>
+                  <><span>{t('footer.subscribe')}</span> <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} /></>
                 )}
               </motion.button>
             </form>
@@ -127,9 +162,9 @@ const Footer: React.FC = () => {
               className={`h-8 mb-5 ${isRTL ? 'mr-auto ml-0' : ''}`}
               whileHover={{ scale: 1.02 }}
             />
-            <p className={`text-sm mb-6 max-w-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              Premium web development for businesses that want to grow. Based in Chicago, expanding to Doha.
-            </p>
+              <p className={`text-sm mb-6 max-w-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              {t('footer.description')}
+              </p>
             <div className="space-y-2">
               <div className={`flex items-center gap-2 text-sm ${isRTL ? 'flex-row-reverse' : ''} ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
                 <MapPin className="w-4 h-4 text-cyan-500" />
@@ -148,7 +183,7 @@ const Footer: React.FC = () => {
 
           {/* Services */}
           <div className={isRTL ? 'text-right' : ''}>
-            <h4 className={`font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>Services</h4>
+            <h4 className={`font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('footer.services')}</h4>
             <ul className="space-y-2">
               {links.services.map((link, idx) => (
                 <li key={idx}>
@@ -164,15 +199,26 @@ const Footer: React.FC = () => {
 
           {/* Company */}
           <div className={isRTL ? 'text-right' : ''}>
-            <h4 className={`font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>Company</h4>
+            <h4 className={`font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('footer.company')}</h4>
             <ul className="space-y-2">
               {links.company.map((link, idx) => (
                 <li key={idx}>
-                  <a href={link.href} className={`text-sm transition-colors ${
-                    isDark ? 'text-slate-500 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'
-                  }`}>
-                    {link.label}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className={`text-sm transition-colors ${
+                        isDark ? 'text-slate-500 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className={`text-sm transition-colors ${
+                      isDark ? 'text-slate-500 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'
+                    }`}>
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -204,7 +250,7 @@ const Footer: React.FC = () => {
 
             {/* Copyright */}
             <p className={`text-sm flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''} ${isDark ? 'text-slate-600' : 'text-slate-500'}`}>
-              © {currentYear} {companyInfo.name}. Built with{' '}
+              © {currentYear} {companyInfo.name}. {t('footer.builtWith')}{' '}
               <Heart className="w-4 h-4 text-red-500" />
             </p>
           </div>

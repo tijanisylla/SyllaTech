@@ -8,7 +8,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { BookingContext } from '@/App';
 
 const Pricing: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const { openBooking } = useContext(BookingContext);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -55,16 +55,16 @@ const Pricing: React.FC = () => {
               ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' 
               : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
           }`}>
-            Transparent Pricing
+            {t('pricing.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Simple{' '}
+            {t('pricing.title')}{' '}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Pricing
+              {t('pricing.titleHighlight')}
             </span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            No hidden fees. Choose the plan that fits your needs.
+            {t('pricing.description')}
           </p>
         </motion.div>
 
@@ -82,7 +82,7 @@ const Pricing: React.FC = () => {
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                   <span className="flex items-center gap-1 px-4 py-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-semibold">
                     <Star className="w-3 h-3" />
-                    Most Popular
+                    {t('pricing.mostPopular')}
                   </span>
                 </div>
               )}
@@ -105,12 +105,12 @@ const Pricing: React.FC = () => {
                 {/* Price */}
                 <div className={`mb-6 ${isRTL ? 'text-right' : ''}`}>
                   {plan.price === 'Custom' ? (
-                    <span className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Custom</span>
+                    <span className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{t('pricing.custom')}</span>
                   ) : (
                     <>
                       <span className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>$</span>
                       <span className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{plan.price}</span>
-                      <span className={`text-sm ml-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>starting</span>
+                      <span className={`text-sm ml-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{t('pricing.starting')}</span>
                     </>
                   )}
                 </div>
@@ -138,7 +138,7 @@ const Pricing: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Get Started
+                  {t('pricing.getStarted')}
                 </motion.button>
               </div>
             </motion.div>
@@ -163,7 +163,7 @@ const Pricing: React.FC = () => {
                     ? 'bg-teal-500/10 border border-teal-500/20 text-teal-400' 
                     : 'bg-teal-50 border border-teal-200 text-teal-600'
                 }`}>
-                  Recurring
+                  {t('pricing.recurring')}
                 </span>
               </div>
               <p className={`text-sm mb-4 lg:mb-0 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{monthlyPlan.description}</p>
@@ -182,7 +182,7 @@ const Pricing: React.FC = () => {
               <div className={isRTL ? 'text-left' : 'text-right'}>
                 <span className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>$</span>
                 <span className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{monthlyPlan.price}</span>
-                <span className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>/mo</span>
+                <span className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{t('pricing.perMonth')}</span>
               </div>
               <motion.button
                 onClick={() => scrollToSection('#booking')}
@@ -194,7 +194,7 @@ const Pricing: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Learn More
+                {t('pricing.learnMore')}
                 <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
               </motion.button>
             </div>

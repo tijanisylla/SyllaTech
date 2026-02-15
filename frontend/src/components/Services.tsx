@@ -16,7 +16,7 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 const Services: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { t, isRTL } = useLanguage();
   const { isDark } = useTheme();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -59,16 +59,16 @@ const Services: React.FC = () => {
               ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' 
               : 'bg-cyan-50 border border-cyan-200 text-cyan-600'
           }`}>
-            What We Build
+            {t('services.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            Our{' '}
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Services
-            </span>
+            {t('services.title')}
+            {t('services.titleHighlight') ? (
+              <>{' '}<span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{t('services.titleHighlight')}</span></>
+            ) : null}
           </h2>
           <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            Everything you need to establish a powerful online presence and grow your business
+            {t('services.description')}
           </p>
         </motion.div>
 
